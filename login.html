@@ -43,16 +43,6 @@
             />
           </div>
 
-          <div class="mb-3">
-            <label for="tbank-user-otp" class="form-label">User ID</label>
-            <input
-              type="password"
-              class="form-control"
-              id="tbank-user-otp"
-              placeholder="******"
-            />
-          </div>
-
           <div class="mt-4">
             <div class="form-check">
               <input
@@ -72,7 +62,7 @@
           </div>
 
           <div class="text-end">
-            <a href="#" class="btn btn-primary">Login</a>
+            <a href="#" class="btn btn-primary" onclick="onLogin()">Login</a>
           </div>
         </div>
       </div>
@@ -88,61 +78,43 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+      integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
     <script>
-      var headerObj = {
-        Header: {
-          serviceName: 'creditTransfer',
-          userID: 'BH123123',
-          PIN: '123456',
-          OTP: '776488'
-        }
+      const onLogin = async () => {
+        const [userId, userPin] = [
+          $('#tbank-user-id').val(),
+          $('#tbank-user-pin').val()
+        ]
+
+        await sendOtp(userId, userPin)
       }
 
-      var contentObj = {
-        Content: {
-          accountFrom: '0000007753',
-          accountTo: '0000007792',
-          transactionAmount: '50',
-          transactionReferenceNumber: '112',
-          narrative: '112'
+      const sendOtp = async (userId, pin) => {
+        var headerObj = JSON.stringify({
+          serviceName: 'requestOTP',
+          userID: userId,
+          PIN: pin,
+          OTP: ''
+        })
+
+        const { Content } = await $.post(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`)
+        const { ServiceResponse: { ServiceRespHeader: { ErrorText } } } = Content
+
+        if (ErrorText !== "Invocation successful") {
+          swal({
+            title: "Invalid account",
+            text: "Please ensure that you have entered the right user and password.",
+            icon: "error",
+            dangerMode: true
+          })
         }
       }
-
-      var header = JSON.stringify(headerObj)
-      var content = JSON.stringify(contentObj)
-      var xmlHttp = new XMLHttpRequest()
-
-      xmlHttp.open(
-        'POST',
-        'http://tbankonline.com/SMUtBank_API/Gateway?Header=' +
-          header +
-          '&Content=' +
-          content,
-        true
-      )
-
-      xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-          responseObj = JSON.parse(xmlHttp.responseText)
-
-          serviceRespHeader =
-            responseObj.Content.ServiceResponse.ServiceRespHeader
-
-          globalErrorID = serviceRespHeader.GlobalErrorID
-
-          ServiceResponse = responseObj.Content.ServiceResponse
-
-          LoginOTPAuthenticateResponse =
-            ServiceResponse['Login_OTP_Authenticate-Response']
-
-          BankID = LoginOTPAuthenticateResponse.BankID
-
-          CustomerID = LoginOTPAuthenticateResponse.CustomerID
-        }
-      }
-
-      xmlHttp.send()
     </script>
   </body>
 </html>
