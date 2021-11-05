@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="w-100 h-100">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,15 +14,72 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body>
+  <body class="w-100 h-100">
+    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+      <div class="card" style="width: 32rem">
+        <div class="card-body">
+          <h3 class="card-title mb-4">
+            Login to FastCash
+            <span class="fs-6 fw-light text-secondary">with SMU tBank</span>
+          </h3>
+
+          <div class="mb-3">
+            <label for="tbank-user-id" class="form-label">User ID</label>
+            <input
+              type="text"
+              class="form-control"
+              id="tbank-user-id"
+              placeholder="user123"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="tbank-user-pin" class="form-label">PIN</label>
+            <input
+              type="password"
+              class="form-control"
+              id="tbank-user-pin"
+              placeholder="******"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="tbank-user-otp" class="form-label">User ID</label>
+            <input
+              type="password"
+              class="form-control"
+              id="tbank-user-otp"
+              placeholder="******"
+            />
+          </div>
+
+          <div class="mt-4">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="lender"
+                id="lender-checkbox"
+              />
+              <label class="form-check-label" for="lender-checkbox">
+                Sign in as lender
+              </label>
+            </div>
+
+            <p class="fs-6 fw-light text-black-50">
+              * Once you have logged in as lender, you cannot be a borrower.
+            </p>
+          </div>
+
+          <div class="text-end">
+            <a href="#" class="btn btn-primary">Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
-      integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
-      crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
     <script
@@ -58,7 +115,10 @@
 
       xmlHttp.open(
         'POST',
-        'http://tbankonline.com/SMUtBank_API/Gateway?Header=' + header + '&Content=' + content,
+        'http://tbankonline.com/SMUtBank_API/Gateway?Header=' +
+          header +
+          '&Content=' +
+          content,
         true
       )
 
