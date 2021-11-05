@@ -96,24 +96,76 @@
       }
 
       const sendOtp = async (userId, pin) => {
-        var headerObj = JSON.stringify({
+        const headerObj = JSON.stringify({
           serviceName: 'requestOTP',
           userID: userId,
           PIN: pin,
           OTP: ''
         })
 
-        const { Content } = await $.post(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`)
-        const { ServiceResponse: { ServiceRespHeader: { ErrorText } } } = Content
+        const response = await $.post(
+          `http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`
+        )
+        const errorText =
+          response.Content.ServiceResponse.ServiceRespHeader.ErrorDetails
 
-        if (ErrorText !== "Invocation successful") {
+        if (errorText.includes('Login failed')) {
           swal({
-            title: "Invalid account",
-            text: "Please ensure that you have entered the right user and password.",
-            icon: "error",
+            title: 'Invalid account',
+            text: errorText,
+            icon: 'error',
             dangerMode: true
           })
+        } else {
+          swal({
+            title: 'OTP',
+            text: 'Please enter 6-digits code sent to your mobile',
+            content: 'input'
+          })
+            .then((otp) => {
+              if (!otp)
+                swal({
+                  title: 'Incorrect OTP',
+                  text: 'Please try again.',
+                  icon: 'error',
+                  dangerMode: true
+                })
+
+              return verifyOtp(userId, pin, otp)
+            })
+            .then(accessToken => {
+              localStorage.setItem('accessToken', JSON.stringify(accessToken))
+            })
+            .catch((error) => {
+              swal({
+                title: 'Incorrect OTP',
+                text: error.message,
+                icon: 'error',
+                dangerMode: true
+              })
+            })
         }
+      }
+
+      const verifyOtp = async (userId, pin, otp) => {
+        const headerObj = JSON.stringify({
+          serviceName: 'getCustomerDetails',
+          userID: userId,
+          PIN: pin,
+          OTP: otp
+        })
+
+        const response = await $.post(
+          `http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`
+        )
+        const errorDetails =
+          response.Content.ServiceResponse.ServiceRespHeader.ErrorText
+
+        if (errorDetails.includes('invocation successful')) {
+          return { userID: userId, PIN: pin, OTP: otp }
+        }
+
+        throw new Error('Invalid OTP provided.')
       }
     </script>
   </body>
