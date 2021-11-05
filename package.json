@@ -1,0 +1,27 @@
+{
+  "name": "is444-dbea-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BingHuang-Chin/IS444-DBEA-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BingHuang-Chin/IS444-DBEA-Project/issues"
+  },
+  "homepage": "https://github.com/BingHuang-Chin/IS444-DBEA-Project#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
