@@ -20,7 +20,7 @@
   "homepage": "https://github.com/BingHuang-Chin/IS444-DBEA-Project#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql2": "^2.3.3-rc.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
