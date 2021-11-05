@@ -133,8 +133,9 @@
 
               return verifyOtp(userId, pin, otp)
             })
-            .then(accessToken => {
+            .then((accessToken) => {
               localStorage.setItem('accessToken', JSON.stringify(accessToken))
+              loginUser()
             })
             .catch((error) => {
               swal({
@@ -166,6 +167,12 @@
         }
 
         throw new Error('Invalid OTP provided.')
+      }
+
+      const loginUser = async () => {
+        const accessToken = JSON.parse(localStorage.getItem('accessToken'))
+        const response = await $.post("/api/auth/login", accessToken)
+        console.log(response)
       }
     </script>
   </body>
