@@ -3,7 +3,7 @@ const router = express.Router()
 const mySql = require("../lib/mysql-wrapper")
 
 router.post("/login", async (req, res) => {
-  const { accessToken, isLender } = req.body
+  let { accessToken, isLender } = req.body
   if (!accessToken)
     return res.json({ status: 401, message: "Unauthorised access." })
 
@@ -15,6 +15,10 @@ router.post("/login", async (req, res) => {
 
   if (results.length === 0)
     await createUser(userId, isLender)
+  else {
+    const { is_lender } = results[0]
+    isLender = is_lender
+  }
 
   res.json({ 
     status: 200,
