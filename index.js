@@ -10,6 +10,6 @@ initMySql()
 
 app.use(express.static("public"))
 
-app.use("/auth", authRouter)
+app.use("/api/auth", authRouter)
 
 app.listen(port, () => console.log(`Application running at http://localhost:${port}`))
