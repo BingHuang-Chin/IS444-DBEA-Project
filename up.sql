@@ -14,6 +14,13 @@ CREATE TABLE loan_status (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE transaction_status (
+	id								INT							AUTO_INCREMENT,
+	title							VARCHAR(50)			NOT NULL,
+	
+	PRIMARY KEY (id)
+);
+
 CREATE TABLE loans (
 	id								INT							AUTO_INCREMENT,
 	user_id						VARCHAR(255)		NOT NULL,
@@ -27,8 +34,25 @@ CREATE TABLE loans (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE transaction_history (
+	id								INT							AUTO_INCREMENT,
+	title							VARCHAR(50)			NOT NULL	DEFAULT 1,
+	transaction_status				INT					NOT NULL,
+	source_account					VARCHAR(100)		NOT NULL,
+	dest_account					VARCHAR(100)		NOT NULL,
+	created_at						TIMESTAMP			NOT NULL	DEFAULT	CURRENT_TIMESTAMP(),
+	
+	PRIMARY KEY (id)
+);
+
 INSERT INTO loan_status (title)
 VALUES
 ('Open'),
 ('Offered'),
 ('Rejected');
+
+INSERT INTO transaction_status (title)
+VALUES
+('Pending'),
+('Success'),
+('Failed');
