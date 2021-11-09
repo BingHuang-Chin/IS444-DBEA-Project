@@ -36,7 +36,6 @@ CREATE TABLE loans (
 
 CREATE TABLE transaction_history (
 	id									INT							AUTO_INCREMENT,
-	title								VARCHAR(50)			NOT NULL,
 	transaction_status	INT							NOT NULL 	DEFAULT 1,
 	source_account			VARCHAR(100)		NOT NULL,
 	dest_account				VARCHAR(100)		NOT NULL,
