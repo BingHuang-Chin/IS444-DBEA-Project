@@ -173,7 +173,7 @@
         const accessToken = JSON.parse(localStorage.getItem('accessToken'))
         const isLender = $('#lender-checkbox').prop('checked')
 
-        const { status, message, redirect } = await $.post('http://localhost:3000/api/auth/login', {
+        const { status, message, redirect } = await $.post('/api/auth/login', {
           accessToken,
           isLender
         })
