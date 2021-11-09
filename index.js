@@ -8,6 +8,9 @@ const port = 3000
 
 initMySql()
 
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
 app.use(express.static("public"))
 
 app.use("/api/auth", authRouter)
