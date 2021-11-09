@@ -5,3 +5,5 @@ const mySql = require("../lib/mysql-wrapper")
 router.post("/", async (req, res) => {
   res.json({ hello: "world" })
 })
+
+module.exports = router
