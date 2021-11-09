@@ -171,8 +171,23 @@
 
       const loginUser = async () => {
         const accessToken = JSON.parse(localStorage.getItem('accessToken'))
-        const response = await $.post("/api/auth/login", accessToken)
-        console.log(response)
+        const isLender = $('#lender-checkbox').prop('checked')
+
+        const { status, message, redirect } = await $.post('http://localhost:3000/api/auth/login', {
+          accessToken,
+          isLender
+        })
+
+        if (status === 200) {
+          location.href = redirect
+        } else {
+          swal({
+            title: 'An error occurred',
+            text: message,
+            icon: 'error',
+            dangerMode: true
+          })
+        }
       }
     </script>
   </body>
