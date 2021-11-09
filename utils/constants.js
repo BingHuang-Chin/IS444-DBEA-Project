@@ -1,5 +1,5 @@
 module.exports = {
 
-  merchangeAccount: "0000007752"
+  merchantAccount: "0000007752"
 
 }
