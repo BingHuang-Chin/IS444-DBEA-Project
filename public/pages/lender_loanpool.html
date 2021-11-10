@@ -59,13 +59,13 @@
            </li>
           <br>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="lender.html">
+              <a class="nav-link" aria-current="page" href="lender.html">
                 <span data-feather="home"></span>
                 Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="lender_loanpool.html">
+              <a class="nav-link active" href="lender_loanpool.html">
                 <span data-feather="users"></span>
                 Loan Pool
               </a>
@@ -92,26 +92,48 @@
           </ul>
         </div>
       </nav>
-
-      <!-- Need to discuss what content to display on the dashboard -->
   
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Dashboard</h1>
-          <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group me-2">
-              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-            </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-              <span data-feather="calendar"></span>
-              This week
-            </button>
-          </div>
+        <h1 class="h2">Loan Pool</h1>
         </div>
-  
-        <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Header</th>
+                <th>Header</th>
+                <th>Header</th>
+                <th>Lend</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1,001</td>
+                <td>random</td>
+                <td>data</td>
+                <td>placeholder</td>
+                <td> <button type="button" class="btn btn-success btn-sm" data-toggle="button" aria-pressed="false" value="Submit"> Lend</button> </td> 
+                <!-- should Lend button be changed to more info? Then a modal with info and a lend button pops up? -->
+              </tr>
+              <tr>
+                <td>1,002</td>
+                <td>placeholder</td>
+                <td>irrelevant</td>
+                <td>visual</td>
+                <td>layout</td>
+              </tr>
+              <tr>
+                <td>1,003</td>
+                <td>data</td>
+                <td>rich</td>
+                <td>dashboard</td>
+                <td>tabular</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </main>
     </div>
   </div>
