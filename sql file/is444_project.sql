@@ -29,6 +29,16 @@ CREATE TABLE IF NOT EXISTS `fc_user` (
  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `fc_user` (`user_id`, `credits`, `is_lender`, `created_at`) VALUES
+INSERT INTO `fc_user` (`user_id`, `credits`, `is_lender`, `created_at`) VALUES 
+('8922365237', '1000', '1', CURRENT_TIMESTAMP), ('4513795324', '1500', '1', CURRENT_TIMESTAMP), 
+('9289678798 ', '2000', '1', CURRENT_TIMESTAMP), 
+('5391353070', '1750', '1', CURRENT_TIMESTAMP), 
+('7108406563', '50', '0', CURRENT_TIMESTAMP), ('6275293700', '20', '0', CURRENT_TIMESTAMP), 
+('1484470453', '0', '0', CURRENT_TIMESTAMP), ('5434523489', '15', '0', CURRENT_TIMESTAMP), 
+('9834732347', '30', '0', CURRENT_TIMESTAMP), ('7483948763', '100', '0', CURRENT_TIMESTAMP);
+                                                                             
+
 --
 -- Table structure for table `loan_status`
 --
