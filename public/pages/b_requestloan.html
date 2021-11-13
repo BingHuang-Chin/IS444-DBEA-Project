@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FastCash | Borrower's</title>
+  <title>FastCash | Request new loan</title>
 
   <!-- Bootstrap core CSS -->
   <link href="../../assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -50,6 +50,7 @@
           <ul class="nav flex-column">
             <li class="nav-item text-sm-center">
               <!-- This line can be removed if we dw to show -->
+              <!-- This one need to include the profile details instead?-->
               <a class="nav-link">
                   @{{ username }} <br>
                   Progress <br>
@@ -101,11 +102,26 @@
           <div class="btn-toolbar mb-2 mb-md-0">
           </div>
         </div>
-  
-        <form>
-            Insert form here
+        <!-- adjust the form length -->
+        <form action="b_requestloans.php" method="post" id="requestform">
+          <div class = "form-group">
+            <label for = "PrincipalAmt">Principal Amount: </label>
+            $<input type="number" class="form-control" id="PrincipalAmt" name="PrincipalAmt">
+          </div>
+          <div class = "form-group">
+            <label for = "IntRate">Interest Rate: </label>
+            <input type="number" class="form-control" id="IntRate" name="IntRate">%
+          </div>
+          <div class = "form-group">
+            <label for = "Months">Months to pay off loan: </label>
+            <input type="number" class="form-control" id="Months" name="Months"> Months
+          </div>
+          <div class = "form-group">
+            <label for = "ReceivingAcc">Receiving Account: </label>
+            $<input type="number" class="form-control" id="ReceivingAcc" name="ReceivingAcc">
+          </div>
+          <button type="submit" class="btn btn-primary" id="requestBtn">Request</button>
         </form>
-
       </main>
     </div>
   </div>
