@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `fc_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `fc_user` (`user_id`, `credits`, `is_lender`, `created_at`) VALUES
-INSERT INTO `fc_user` (`user_id`, `credits`, `is_lender`, `created_at`) VALUES 
 ('8922365237', '1000', '1', CURRENT_TIMESTAMP), ('4513795324', '1500', '1', CURRENT_TIMESTAMP), 
 ('9289678798 ', '2000', '1', CURRENT_TIMESTAMP), 
 ('5391353070', '1750', '1', CURRENT_TIMESTAMP), 
@@ -101,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `loans` (
 INSERT INTO `loans` (`id`, `user_id`, `loan_amount`, `loan_status`, `loaned_by`, `payment_duration`, `due_date`, `interest`) VALUES 
 ('1', '7108406563', '250', '1', '', '1', '2021-12-13 00:00:00', '5'), ('2', '6275293700', '500', '1', '', '2', '2022-01-13 00:00:00', '10'), 
 ('3', '5434523489', '300', '1', '', '4', '2022-03-13 00:00:00', '16'), ('4', '7483948763', '250', '2', '4513795324', '1', '2021-12-13 00:00:00', '4'), 
-('5', '1484470453', '1000', '2', '300', '1', '2021-11-13 00:00:00', '6')
+('5', '1484470453', '1000', '2', '300', '1', '2021-11-13 00:00:00', '6');
 
 
 --
