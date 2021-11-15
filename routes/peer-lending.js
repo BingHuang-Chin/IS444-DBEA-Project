@@ -21,6 +21,28 @@ router.get("/", async (req, res) => {
 })
 
 /**
+ * Retrieves committed amount for a specific lender
+ */
+router.get("/:id", async (req, res) => {
+  const { accessToken } = req.body
+  const { id: userId } = req.params
+
+  if (!accessToken)
+    return res.json({ status: 401, message: "Unauthorized access." })
+
+  if (!userId)
+    return res.json({ status: 400, message: "No user provided." })
+
+  try {
+    const peerList = await getListings(userId)
+    return res.json({ status: 200, data: peerList })
+  } catch (e) {
+    console.error(e)
+    return res.json({ status: 500, message: "Internal server error" })
+  }
+})
+
+/**
  * Post a peer-to-peer lending listing
  */
 router.post("/", async (req, res) => {
@@ -44,7 +66,15 @@ router.post("/", async (req, res) => {
   }
 })
 
-async function getListings () {
+async function getListings (userId = null) {
+  if (userId)
+    return mySql.handleQuery(`
+      SELECT *
+      FROM peer_listing
+      WHERE listed_by = ?
+      ORDER BY id;
+    `, [userId])
+
   return mySql.handleQuery(`
     SELECT *
     FROM peer_listing;
