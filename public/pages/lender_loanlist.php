@@ -1,3 +1,10 @@
+<?php
+
+require_once 'IS444-DBEA-Project\public\model\common.php';
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,47 +107,48 @@
       </nav>
   
     <?php
-      $servername = "localhost";
-      $username = "root";
-      $password = "root";
-      $conn = new mysqli($servername,$username,$password);
-      if($conn->connect_error){
-        die("connection failed: " . $conn->connect_error);
-      }
-      $sql = "SELECT id, user_id, loan_amount, loan_status, loaned_by,
-      payment_duration, due_date, interest
-      FROM loans
-      $result = $conn->query($sql);
+      // $servername = "localhost";
+      // $username = "root";
+      // $password = "";
+      // $dbname = 'fashcash';
+      // $port = '3306';
+      // $conn = new mysqli($servername,$username,$password);
+      // if($conn->connect_error){
+      //   die("connection failed: " . $conn->connect_error);
+      // }
+      // $sql = "SELECT id, user_id, loan_amount, loan_status, loaned_by,
+      // payment_duration, due_date, interest
+      // FROM loans
+      // $result = $conn->query($sql);
       
-      if ($result->num_rows > 0) {
+      // if ($result->num_rows > 0) {
       
-          echo"<table>";
-          echo("<table border = \"1\">");
-          print("<tr>");
-          print("<th>ID</th>");
-          print("<th>USER ID</th>");
-          print("<th>LOAN AMOUNT</th>");
-          print("<th>LOAN STATUS</th>");
-          print("<th>LOANED BY</th>");
-          print("<th>PAYMENT DURATION</th>");
-          print("<th>DUE DATE</th>");
-          print("<th>INTEREST</th>");
-          while($row = $result->fetch_assoc()) {
-              echo "<tr><td>" . $row["loans.id"]. "</td><td>" . $row["loans.user_id"].
-              "</td><td>" . $row["loans.loan_amount"]. "</td><td>" . $row["loans.loan_status"] . "</td><td>" .
-              $row["loans.payment_duration"] . "</td><td>" . $row["loans.due_date"] . "</td><td>" .
-              $row["loans.interest"] . "</td><td>";
-          }
-      } else {
-          echo "0 results";
-      }
-      echo"</table>";
-      $conn->close();
-      
+      //     echo"<table>";
+      //     echo("<table border = \"1\">");
+      //     print("<tr>");
+      //     print("<th>ID</th>");
+      //     print("<th>USER ID</th>");
+      //     print("<th>LOAN AMOUNT</th>");
+      //     print("<th>LOAN STATUS</th>");
+      //     print("<th>LOANED BY</th>");
+      //     print("<th>PAYMENT DURATION</th>");
+      //     print("<th>DUE DATE</th>");
+      //     print("<th>INTEREST</th>");
+      //     while($row = $result->fetch_assoc()) {
+      //         echo "<tr><td>" . $row["loans.id"]. "</td><td>" . $row["loans.user_id"].
+      //         "</td><td>" . $row["loans.loan_amount"]. "</td><td>" . $row["loans.loan_status"] . "</td><td>" .
+      //         $row["loans.payment_duration"] . "</td><td>" . $row["loans.due_date"] . "</td><td>" .
+      //         $row["loans.interest"] . "</td><td>";
+      //     }
+      // } else {
+      //     echo "0 results";
+      // }
+      // echo"</table>";
+      // $conn->close();
+
+
       ?>  
-    </div>
-  </div>
-  
+
   
       <script src="../../assets/dist/js/bootstrap.bundle.min.js"></script>
   
