@@ -53,8 +53,6 @@ router.post("/", async (req, res) => {
   return res.json({ status: 200, message: `Successfully deposited $${amount}.` })
 })
 
-module.exports = router
-
 async function getUser (userId) {
   return mySql.handleQuery(`
     SELECT * 
@@ -88,3 +86,5 @@ async function updateTransactionHistory (statusCode, txRef) {
     WHERE id = ?;
   `, [statusCode, txRef])
 }
+
+module.exports = router
