@@ -119,9 +119,6 @@ CREATE TABLE IF NOT EXISTS `transaction_history` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Table structure for table `peer_listing`
 --
@@ -135,4 +132,3 @@ CREATE TABLE IF NOT EXISTS `peer_listing` (
 	`created_at` TIMESTAMP NOT NULL DEFAULT	CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
->>>>>>> cdff9092f7912d7e043a1736e59989c79b71bedb
