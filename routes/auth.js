@@ -27,8 +27,6 @@ router.post("/login", async (req, res) => {
   })
 })
 
-module.exports = router
-
 async function createUser(userId, isLender) {
   await mySql.handleQuery(`
     INSERT INTO fc_user (user_id, is_lender)
@@ -36,3 +34,5 @@ async function createUser(userId, isLender) {
     (?, ?)
   `, [userId, JSON.parse(isLender)])
 }
+
+module.exports = router

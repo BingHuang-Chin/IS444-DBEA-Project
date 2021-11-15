@@ -102,3 +102,17 @@ CREATE TABLE IF NOT EXISTS `transaction_history` (
 	`created_at` TIMESTAMP NOT NULL DEFAULT	CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `peer_listing`
+--
+
+DROP TABLE IF EXISTS `peer_listing`;
+CREATE TABLE IF NOT EXISTS `peer_listing` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`commited_amount` INT(10) NOT NULL,
+	`interest_rate` INT(10) NOT NULL,
+	`listed_by` VARCHAR(255) NOT NULL,
+	`created_at` TIMESTAMP NOT NULL DEFAULT	CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
