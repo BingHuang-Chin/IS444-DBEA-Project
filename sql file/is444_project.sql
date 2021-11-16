@@ -64,7 +64,8 @@ INSERT INTO loan_status (title)
 VALUES
 ('Open'),
 ('Offered'),
-('Rejected');
+('Rejected'),
+('Repaid');
 
 --
 -- Table structure for table `transaction_status`
