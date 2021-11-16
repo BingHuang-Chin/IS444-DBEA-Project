@@ -6,7 +6,7 @@ const mySql = require("../lib/mysql-wrapper")
  * Retrieves all lenders amount
  */
 router.get("/", async (req, res) => {
-  const { accessToken } = req.body
+  let { accessToken } = req.query
 
   if (!accessToken)
     return res.json({ status: 401, message: "Unauthorized access." })
@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
  * Retrieves committed amount for a specific lender
  */
 router.get("/:id", async (req, res) => {
-  const { accessToken } = req.body
+  const { accessToken } = req.query
   const { id: userId } = req.params
 
   if (!accessToken)
