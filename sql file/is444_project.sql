@@ -25,17 +25,24 @@ CREATE TABLE IF NOT EXISTS `fc_user` (
  `user_id` VARCHAR(255) NOT NULL,
  `credits` INT(10) NOT NULL DEFAULT 0,
  `is_lender` TINYINT(1) NOT NULL DEFAULT FALSE,
+ `level` INT(10) NOT NULL DEFAULT 1,
+ `current_exp` INT(10) NOT NULL DEFAULT 0,
+ `total_exp` INT(10) NOT NULL DEFAULT 3,
  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `fc_user` (`user_id`, `credits`, `is_lender`, `created_at`) VALUES
-('8922365237', '1000', '1', CURRENT_TIMESTAMP), ('4513795324', '1500', '1', CURRENT_TIMESTAMP), 
+('8922365237', '1000', '1', CURRENT_TIMESTAMP),
+('4513795324', '1500', '1', CURRENT_TIMESTAMP), 
 ('9289678798 ', '2000', '1', CURRENT_TIMESTAMP), 
 ('5391353070', '1750', '1', CURRENT_TIMESTAMP), 
-('7108406563', '50', '0', CURRENT_TIMESTAMP), ('6275293700', '20', '0', CURRENT_TIMESTAMP), 
-('1484470453', '0', '0', CURRENT_TIMESTAMP), ('5434523489', '15', '0', CURRENT_TIMESTAMP), 
-('9834732347', '30', '0', CURRENT_TIMESTAMP), ('7483948763', '100', '0', CURRENT_TIMESTAMP);
+('7108406563', '50', '0', CURRENT_TIMESTAMP),
+('6275293700', '20', '0', CURRENT_TIMESTAMP), 
+('1484470453', '0', '0', CURRENT_TIMESTAMP),
+('5434523489', '15', '0', CURRENT_TIMESTAMP), 
+('9834732347', '30', '0', CURRENT_TIMESTAMP),
+('7483948763', '100', '0', CURRENT_TIMESTAMP);
                                                                              
 
 --
@@ -80,6 +87,26 @@ VALUES
 ('Success'),
 ('Failed');
 
+
+--
+-- Table structure for table `peer_listing`
+--
+
+DROP TABLE IF EXISTS `peer_listing`;
+CREATE TABLE IF NOT EXISTS `peer_listing` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`commited_amount` INT(10) NOT NULL,
+	`interest_rate` INT(10) NOT NULL,
+	`listed_by` VARCHAR(255) NOT NULL,
+	`created_at` TIMESTAMP NOT NULL DEFAULT	CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`listed_by`) REFERENCES fc_user(`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `peer_listing` (`commited_amount`, `interest_rate`, `listed_by`)
+VALUES
+(350, 15, '8922365237');
+
 --
 -- Table structure for table `loans`
 --
@@ -94,13 +121,20 @@ CREATE TABLE IF NOT EXISTS `loans` (
 	`payment_duration` INT(10) NOT NULL,
 	`due_date` TIMESTAMP NOT NULL,
 	`interest` INT(10) DEFAULT 15,
-	PRIMARY KEY (`id`)
+	`peer_listing_id` INT(10) NOT NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (loan_status) REFERENCES loan_status(id) ON DELETE CASCADE,
+	FOREIGN KEY (peer_listing_id) REFERENCES peer_listing(id) ON DELETE CASCADE,
+	FOREIGN KEY (loaned_by) REFERENCES fc_user(user_id) ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES fc_user(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `loans` (`id`, `user_id`, `loan_amount`, `loan_status`, `loaned_by`, `payment_duration`, `due_date`, `interest`) VALUES 
-('1', '7108406563', '250', '1', '', '1', '2021-12-13 00:00:00', '5'), ('2', '6275293700', '500', '1', '', '2', '2022-01-13 00:00:00', '10'), 
-('3', '5434523489', '300', '1', '', '4', '2022-03-13 00:00:00', '16'), ('4', '7483948763', '250', '2', '4513795324', '1', '2021-12-13 00:00:00', '4'), 
-('5', '1484470453', '1000', '2', '300', '1', '2021-11-13 00:00:00', '6');
+INSERT INTO `loans` (`user_id`, `loan_amount`, `loan_status`, `loaned_by`, `payment_duration`, `due_date`, `interest`, `peer_listing_id`) VALUES 
+('7108406563', '250', '1', '8922365237', '1', '2021-12-13 00:00:00', '5', 1),
+('6275293700', '500', '1', '4513795324', '2', '2022-01-13 00:00:00', '10', 1), 
+('5434523489', '300', '1', '4513795324', '4', '2022-03-13 00:00:00', '16', 1),
+('7483948763', '250', '2', '4513795324', '1', '2021-12-13 00:00:00', '4', 1), 
+('1484470453', '1000', '2', '5391353070', '1', '2021-11-13 00:00:00', '6', 1);
 
 
 --
@@ -115,19 +149,6 @@ CREATE TABLE IF NOT EXISTS `transaction_history` (
 	`source_account` VARCHAR(100) NOT NULL,
 	`dest_account` VARCHAR(100) NOT NULL,
 	`created_at` TIMESTAMP NOT NULL DEFAULT	CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Table structure for table `peer_listing`
---
-
-DROP TABLE IF EXISTS `peer_listing`;
-CREATE TABLE IF NOT EXISTS `peer_listing` (
-	`id` INT(10) NOT NULL AUTO_INCREMENT,
-	`commited_amount` INT(10) NOT NULL,
-	`interest_rate` INT(10) NOT NULL,
-	`listed_by` VARCHAR(255) NOT NULL,
-	`created_at` TIMESTAMP NOT NULL DEFAULT	CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (transaction_status) REFERENCES transaction_status(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
