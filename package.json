@@ -20,6 +20,7 @@
   "homepage": "https://github.com/BingHuang-Chin/IS444-DBEA-Project#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "luxon": "^2.1.1",
     "mysql2": "^2.3.3-rc.0",
     "node-fetch": "^2.6.6"
   },
