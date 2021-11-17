@@ -241,12 +241,14 @@ async function getLoansByUser (userId) {
 
 async function getLoansByLister (userId) {
   return mySql.handleQuery(`
-    SELECT loans.id, user_id, loan_amount, title as loan_status, loaned_by, payment_duration, due_date, interest
-    FROM loans
+    SELECT l.id, l.user_id, loan_amount, title as loan_status, loaned_by, payment_duration, due_date, interest, fu.level
+    FROM loans l
+    INNER JOIN fc_user fu
+    ON fu.user_id = l.user_id 
     INNER JOIN loan_status
-    ON loan_status = loan_status.id
+    ON loan_status = loan_status.id  
     WHERE loaned_by = ?
-    ORDER BY loans.id asc;
+    ORDER BY l.id asc;
   `, [userId])
 }
 

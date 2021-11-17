@@ -84,29 +84,16 @@
               <h2 class="d-inline-block card-title">Profile</h2>
               <span class="badge bg-info ms-auto rounded-pill fs-6" id="account-type">-</span>
             </div>
-
-            <!-- <p class="fw-light">
-                <span
-                  class="badge bg-secondary ms-auto rounded-pill fs-6"
-                  id="current-level"
-                >
-                  -
-                </span>
-
-                <span
-                  class="badge bg-secondary ms-auto rounded-pill fs-6"
-                  id="level-progress-text"
-                >
-                  -
-                </span>
-              </p> -->
           </div>
 
           <div class="d-flex align-items-center card-footer">
             Available credits:
             <span class="px-2 fw-bold" id="available-credits">-</span>
-            <button class="btn btn-primary ms-auto" onclick="createLoan()">Create Loan</button>
-            <button class="btn btn-primary ms-auto" onclick="depositCredits()">Deposit</button>
+
+            <div class="ms-auto">
+              <button class="btn btn-secondary" onclick="createLoan()">Create Loan</button>
+              <button class="btn btn-primary" onclick="depositCredits()">Deposit</button>
+            </div>
           </div>
         </div>
 
@@ -250,7 +237,7 @@
       else {
         let trList = ''
         transactionData.forEach(tx => {
-          const { id, title: transaction_status, amount, created_at, dest_account, source_account } = tx
+          const { id, transaction_status, amount, created_at, dest_account, source_account } = tx
 
           trList += `
               <tr>
@@ -290,19 +277,25 @@
       else {
         let trList = ''
         requestedLoanData.forEach(tx => {
-          const { id, user_id, loan_amount, payment_duration, due_date } = tx
+          const { id, user_id, loan_amount, level, loan_status, payment_duration, due_date } = tx
+
+          let actionButtons = '-'
+          if (loan_status === 'Open')
+            actionButtons = `
+              <button class="btn btn-success" onclick="approveLoan(${id})">Approve</button>
+              <button class="btn btn-danger" onclick="rejectLoan(${id})">Reject</button>
+            `
 
           trList += `
             <tr>
               <td>${id}</td>
               <td>${user_id}</td>
+              <td>${level}</td>
               <td>${loan_amount}</td>
               <td>${payment_duration}</td>
               <td>${luxon.DateTime.fromISO(due_date).toLocaleString(luxon.DateTime.DATE_SHORT)}</td>
-              <td>
-                <button class="btn btn-success" onclick="approveLoan(${id})">Approve</button>
-                <button class="btn btn-danger" onclick="rejectLoan(${id})">Reject</button>
-              </td>
+              <td>${loan_status}</td>
+              <td>${actionButtons}</td>
             </tr>
             `
         })
@@ -313,9 +306,12 @@
                 <tr>
                   <th>Ref.</th>
                   <th>Borrower</th>
+                  <th>Level</th>
                   <th>Amount</th>
                   <th>Duration (months)</th>
                   <th>Estimated payout</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>${trList}</tbody>
