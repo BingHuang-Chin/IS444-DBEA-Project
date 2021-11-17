@@ -150,39 +150,23 @@
             <div class="d-flex align-items-center card-footer">
               Available credits:
               <span class="px-2 fw-bold" id="available-credits">-</span>
-              <button class="btn btn-primary ms-auto">Deposit</button>
-              <!-- Button trigger modal -->
-              <!-- <button class="btn btn-primary ms-auto" data-toggle="modal" data-target="#exampleModal" >
-                Deposit
-              </button> -->
+              <button class="btn btn-primary ms-auto" onclick="depositCredits()">Deposit</button>
+            </div>
+          </div>
 
-              <!-- Modal -->
-              <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      ...
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="mb-3">Current loan</h5>
+              <div id="loan-information" class="d-flex align-items-center">
+                -
+              </div>
             </div>
           </div>
 
           <div class="card">
             <div class="card-body">
-              <h5 class="mb-3">Current loan</h5>
-              <div id="loan-information" class="d-flex align-items-center">
+              <h5 class="mb-3">Transactions</h5>
+              <div id="transaction-history" class="d-flex align-items-center">
                 -
               </div>
             </div>
@@ -217,26 +201,37 @@
     <script>
       let _userData = null
       let _loanData = null
+      let _userAccounts = []
 
       $(document).ready(async () => {
         const accessToken = localStorage.getItem('accessToken')
+        const headerObj = JSON.stringify({
+          ...JSON.parse(accessToken),
+          serviceName: 'getCustomerAccounts'
+        })
+
         const [
           { status: userStatus, data: userData },
-          { status: loanStatus, data: loanData }
+          { status: loanStatus, data: loanData },
+          { status: transactionStatus, data: transactionData },
+          customerAccounts
         ] = await Promise.all([
           $.get(`/api/auth/user?accessToken=${accessToken}`),
-          $.get(`/api/loan/current?accessToken=${accessToken}`)
+          $.get(`/api/loan/current?accessToken=${accessToken}`),
+          $.get(`/api/transaction/history?accessToken=${accessToken}`),
+          $.post(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`)
         ])
 
-        _userData = userData
-        _loanData = loanData
-
-        if (userStatus !== 200)
+        if (userStatus !== 200 || transactionStatus !== 200 || customerAccounts.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID !== "010000")
           return swal(
             'Error!',
             'Something went wrong, please try again later.',
             'error'
           )
+
+        _userData = userData
+        _loanData = loanData
+        _userAccounts = customerAccounts.Content.ServiceResponse.AccountList.account.filter(acc => acc.currentStatus === "Open")
 
         const { total_exp, current_exp, is_lender, level, credits } = userData
         const levelProgress = (current_exp / total_exp) * 100
@@ -294,6 +289,50 @@
             </button>
           `)
         }
+
+        if (transactionData.length === 0)
+          $('#transaction-history').html(`
+            <p class="d-inline-block text-secondary mb-0">
+              You have no transactions.
+            </p>
+
+            <button class="btn btn-primary ms-auto">
+              View loans
+            </button>
+          `)
+        else {
+          let trList = ''
+          transactionData.forEach(tx => {
+            const { id, title: transaction_status, amount, created_at, dest_account, source_account } = tx
+
+            trList += `
+              <tr>
+                <td>${id}</td>
+                <td>${source_account}</td>
+                <td>${dest_account}</td>
+                <td>${amount}</td>
+                <td>${transaction_status}</td>
+                <td>${luxon.DateTime.fromISO(created_at).toLocaleString(luxon.DateTime.DATE_SHORT)}</td>
+              </tr>
+            `
+          })
+
+          $(`#transaction-history`).html(`
+            <table class="table table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th>Ref.</th>
+                  <th>Account</th>
+                  <th>Transfer to</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>${trList}</tbody>
+            </table>
+          `)
+        }
       })
 
       // start of the listing all available loans stuff
@@ -315,7 +354,7 @@
         window.location = '/pages/login.html'
       }
 
-      function repayLoan() {
+      async function repayLoan() {
         const { credits } = _userData
         const { loan_amount, interest } = _loanData
         const repayAmount =
@@ -324,10 +363,68 @@
         if (parseFloat(credits) < repayAmount)
           return swal('Error', 'Insufficient credits to repay loan.', 'error')
 
-        swal({
-          title: 'Repay',
-          text: ''
+        const modalResponse = await swal({
+          title: 'Confirmation',
+          text: 'Are you sure you want to repay?',
+          buttons: {
+            cancel: true,
+            confirm: 'Yes'
+          }
         })
+        
+        if (!modalResponse)
+          return
+      }
+
+      async function depositCredits() {
+        let accountOptions = ''
+        _userAccounts.forEach((acc, index) => {
+          const { accountID } = acc
+          const isSelected = index === 0 ? 'selected' : ''
+          accountOptions += `<option value="${accountID}" ${isSelected}>${accountID}</option>`
+        })
+
+        const modalResponse = await swal({
+          title: 'Deposit',
+          content: $(`
+            <div class="container text-start">
+              <div class="mb-4">
+                <label class="form-label">Account</label>
+                <select id="account-number" class="form-select">${accountOptions}</select>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Deposit amount</label>
+                <input type="number" class="form-control" id="deposit-amount" placeholder="100" />
+              </div>
+            </div>
+          `).get(0)
+        })
+
+        if (!modalResponse)
+          return
+
+        const depositAmount = $("#deposit-amount").val()
+        const accountNumber = $("#account-number").val()
+
+        if (!depositAmount || parseFloat(depositAmount) < 100)
+          return swal(
+            'Deposit',
+            'Deposit amount cannot be lower than $100',
+            'error'
+          )
+
+        const { status, message } = await $.post('/api/deposit', {
+          accessToken: JSON.parse(localStorage.getItem('accessToken')),
+          account: accountNumber,
+          amount: parseFloat(depositAmount)
+        })
+
+        if (status !== 200)
+          return swal('Error', message, 'error')
+
+        await swal('Deposit', message, 'success')
+        location.reload()
       }
     </script>
   </body>

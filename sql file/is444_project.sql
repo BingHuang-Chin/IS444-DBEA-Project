@@ -145,6 +145,7 @@ INSERT INTO `loans` (`user_id`, `loan_amount`, `loan_status`, `loaned_by`, `paym
 DROP TABLE IF EXISTS `transaction_history`;
 CREATE TABLE IF NOT EXISTS `transaction_history` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`user_id` VARCHAR(255) NOT NULL,
 	`transaction_status` INT(10) NOT NULL DEFAULT 1,
 	`amount` INT(10) NOT NULL,
 	`source_account` VARCHAR(100) NOT NULL,

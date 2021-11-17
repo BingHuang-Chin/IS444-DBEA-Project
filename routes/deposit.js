@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
       return res.json({ status: 400, message: "No source account id provided." })
 
     await tBank.addBeneficiary(accessToken)
-    const { insertId } = await createTransactionHistory(sourceAccount, Constant.merchantAccount, amount)
+    const { insertId } = await createTransactionHistory(accessToken.userID, sourceAccount, Constant.merchantAccount, amount)
     txRef = insertId
 
     await tBank.transfer({
@@ -67,15 +67,15 @@ async function updateCredits (userId, currentAmount, topUpAmount) {
     SET
     credits = ?
     WHERE user_id = ?;
-  `, [currentAmount + topUpAmount, userId])
+  `, [parseFloat(currentAmount) + parseFloat(topUpAmount), userId])
 }
 
-async function createTransactionHistory (sourceAccount, destAccount, amount) {
+async function createTransactionHistory (userId, sourceAccount, destAccount, amount) {
   return mySql.handleQuery(`
-    INSERT INTO transaction_history (source_account, dest_account, amount)
+    INSERT INTO transaction_history (user_id, source_account, dest_account, amount)
     VALUES
-    (?, ?, ?);
-  `, [sourceAccount, destAccount, amount])
+    (?, ?, ?, ?);
+  `, [userId, sourceAccount, destAccount, amount])
 }
 
 async function updateTransactionHistory (statusCode, txRef) {
