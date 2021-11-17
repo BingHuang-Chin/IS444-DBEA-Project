@@ -299,7 +299,7 @@
         else {
           let trList = ''
           transactionData.forEach(tx => {
-            const { id, title: transaction_status, amount, created_at, dest_account, source_account } = tx
+            const { id, transaction_status, amount, created_at, dest_account, source_account } = tx
 
             trList += `
               <tr>
