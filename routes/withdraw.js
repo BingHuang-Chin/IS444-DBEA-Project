@@ -6,7 +6,7 @@ const Constant = require("../utils/constants")
 
 // Withdraw e-credits and transfer into their account
 router.post("/", async (req, res) => {
-  let { accessToken, receivingAccount, withdrawAmount } = req.query
+  let { accessToken, receivingAccount, withdrawAmount } = req.body
   let txRef = null
 
   if (!accessToken)
