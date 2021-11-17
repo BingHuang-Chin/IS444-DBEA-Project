@@ -57,19 +57,18 @@
           <div class="card mx-2 rounded">
             <div class="card-body">
               <p class="card-text">
-                <span class="d-block fs-6 fw-bold text-secondary mb-2">
-                  Lending
+                <span class="d-block fs-6 fw-bold text-secondary py-2">
+                  Dashboard
                 </span>
-
                 <a
-                  href="/pages/peer_lending.html"
+                  href="/pages/b_deposit.html"
                   class="d-block text-decoration-none py-2"
-                  >Peer lending</a
+                  >Deposit</a
                 >
                 <a
-                  href="/pages/lending_pool.html"
+                  href="/pages/b_requestloan.html"
                   class="d-block text-decoration-none py-2"
-                  >Lending pool</a
+                  >Request Loan</a
                 >
               </p>
             </div>
@@ -331,6 +330,32 @@
           `)
         }
       })
+
+      // start of the listing all available loans stuff
+
+      // const accessToken = localStorage.getItem('accessToken')
+      // var settings = {
+      //   url: `/api/peer?accessToken=${accessToken}`,
+      //   method: 'GET'
+      // }
+
+      // $.ajax(settings).done(function (response) {
+      //   const { data } = response
+
+      //   for (const row of data) {
+      //     console.log(row)
+      //     $('#loan-request tbody').append(`
+      //       <tr>
+      //         <td>${id}</td>
+      //         <td>${commited_amount}</td>
+      //         <td>${interest_rate} </td>
+      //       </tr>
+      //       `)
+      //   }
+                    
+      // })
+
+      // end of the listing all available loans stuff
 
       function logout() {
         localStorage.removeItem('accessToken')
