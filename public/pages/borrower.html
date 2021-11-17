@@ -155,10 +155,19 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card mb-5">
             <div class="card-body">
               <h5 class="mb-3">Current loan</h5>
               <div id="loan-information" class="d-flex align-items-center">
+                -
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="mb-3">Transactions</h5>
+              <div id="transaction-history" class="d-flex align-items-center">
                 -
               </div>
             </div>
@@ -205,14 +214,16 @@
         const [
           { status: userStatus, data: userData },
           { status: loanStatus, data: loanData },
+          { status: transactionStatus, data: transactionData },
           customerAccounts
         ] = await Promise.all([
           $.get(`/api/auth/user?accessToken=${accessToken}`),
           $.get(`/api/loan/current?accessToken=${accessToken}`),
+          $.get(`/api/transaction/history?accessToken=${accessToken}`),
           $.post(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`)
         ])
 
-        if (userStatus !== 200 || customerAccounts.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID !== "010000")
+        if (userStatus !== 200 || transactionStatus !== 200 || customerAccounts.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID !== "010000")
           return swal(
             'Error!',
             'Something went wrong, please try again later.',
@@ -279,6 +290,50 @@
             </button>
           `)
         }
+
+        if (transactionData.length === 0)
+          $('#transaction-history').html(`
+            <p class="d-inline-block text-secondary mb-0">
+              You have no transactions.
+            </p>
+
+            <button class="btn btn-primary ms-auto">
+              View loans
+            </button>
+          `)
+        else {
+          let trList = ''
+          transactionData.forEach(tx => {
+            const { id, title: transaction_status, amount, created_at, dest_account, source_account } = tx
+
+            trList += `
+              <tr>
+                <td>${id}</td>
+                <td>${source_account}</td>
+                <td>${dest_account}</td>
+                <td>${amount}</td>
+                <td>${transaction_status}</td>
+                <td>${luxon.DateTime.fromISO(created_at).toLocaleString(luxon.DateTime.DATE_SHORT)}</td>
+              </tr>
+            `
+          })
+
+          $(`#transaction-history`).html(`
+            <table class="table table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th>Ref.</th>
+                  <th>Account</th>
+                  <th>Transfer to</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>${trList}</tbody>
+            </table>
+          `)
+        }
       })
 
       function logout() {
@@ -306,8 +361,6 @@
         
         if (!modalResponse)
           return
-
-        
       }
 
       async function depositCredits() {
