@@ -98,10 +98,14 @@
             </div>
           </div>
 
-          <div class="d-flex align-items-center card-footer">
-            Available credits:
-            <span class="px-2 fw-bold" id="available-credits">-</span>
-            <button class="btn btn-primary ms-auto" onclick="depositCredits()">Deposit</button>
+            <div class="d-flex align-items-center card-footer">
+              Available credits:
+              <span class="px-2 fw-bold" id="available-credits">-</span>
+
+              <div class="ms-auto">
+                <button class="btn btn-secondary" onclick="withdrawCredits()">Withdraw</button>
+                <button class="btn btn-primary" onclick="depositCredits()">Deposit</button>
+            </div>
           </div>
         </div>
 
@@ -352,10 +356,45 @@
       if (status !== 200)
         return swal('Error', message, 'error')
 
-      await swal('Deposit', message, 'success')
-      location.reload()
-    }
-  </script>
-</body>
+        await swal('Deposit', message, 'success')
+        location.reload()
+      }
 
+      async function withdrawCredits() {
+        let accountOptions = ''
+        _userAccounts.forEach((acc, index) => {
+          const { accountID } = acc
+          const isSelected = index === 0 ? 'selected' : ''
+          accountOptions += `<option value="${accountID}" ${isSelected}>${accountID}</option>`
+        })
+
+        const modalResponse = await swal({
+          title: 'Withdraw',
+          content: $(`
+            <div class="container text-start">
+              <div class="mb-4">
+                <label class="form-label">Receiving account</label>
+                <select id="withdraw-account-number" class="form-select">${accountOptions}</select>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Withdrawal amount</label>
+                <input type="number" class="form-control" id="withdraw-amount" placeholder="100" />
+              </div>
+            </div>
+          `).get(0)
+        })
+
+        const withdrawalAmount = $("#withdraw-amount").val()
+        const accountNumber = $("#withdraw-account-number").val()
+
+        if (!withdrawalAmount || parseFloat(withdrawalAmount) < 100)
+          return swal(
+            'Withdrawal',
+            'Withdrawal amount cannot be lower than $100',
+            'error'
+          )
+      }
+    </script>
+  </body>
 </html>
