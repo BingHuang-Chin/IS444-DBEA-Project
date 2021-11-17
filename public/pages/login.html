@@ -1,194 +1,169 @@
 <!DOCTYPE html>
 <html lang="en" class="w-100 h-100">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FastCash - No credit score required</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
-      integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-  </head>
-  <body class="w-100 h-100">
-    <div class="d-flex justify-content-center align-items-center w-100 h-100">
-      <div class="card" style="width: 32rem">
-        <div class="card-body">
-          <h3 class="card-title mb-4">
-            Login to FastCash
-            <span class="fs-6 fw-light text-secondary">with SMU tBank</span>
-          </h3>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCash - No credit score required</title>
 
-          <div class="mb-3">
-            <label for="tbank-user-id" class="form-label">User ID</label>
-            <input
-              type="text"
-              class="form-control"
-              id="tbank-user-id"
-              placeholder="user123"
-            />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
+    integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="w-100 h-100">
+  <div class="d-flex justify-content-center align-items-center w-100 h-100">
+    <div class="card" style="width: 32rem">
+      <div class="card-body">
+        <h3 class="card-title mb-4">
+          Login to FastCash
+          <span class="fs-6 fw-light text-secondary">with SMU tBank</span>
+        </h3>
+
+        <div class="mb-3">
+          <label for="tbank-user-id" class="form-label">User ID</label>
+          <input type="text" class="form-control" id="tbank-user-id" placeholder="user123" />
+        </div>
+
+        <div class="mb-3">
+          <label for="tbank-user-pin" class="form-label">PIN</label>
+          <input type="password" class="form-control" id="tbank-user-pin" placeholder="******" />
+        </div>
+
+        <div class="mt-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="lender" id="lender-checkbox" />
+            <label class="form-check-label" for="lender-checkbox">
+              Sign in as lender
+            </label>
           </div>
 
-          <div class="mb-3">
-            <label for="tbank-user-pin" class="form-label">PIN</label>
-            <input
-              type="password"
-              class="form-control"
-              id="tbank-user-pin"
-              placeholder="******"
-            />
-          </div>
+          <p class="fs-6 fw-light text-black-50">
+            * Once you have logged in as lender, you cannot be a borrower.
+          </p>
+        </div>
 
-          <div class="mt-4">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="lender"
-                id="lender-checkbox"
-              />
-              <label class="form-check-label" for="lender-checkbox">
-                Sign in as lender
-              </label>
-            </div>
-
-            <p class="fs-6 fw-light text-black-50">
-              * Once you have logged in as lender, you cannot be a borrower.
-            </p>
-          </div>
-
-          <div class="text-end">
-            <a href="#" class="btn btn-primary" onclick="onLogin()">Login</a>
-          </div>
+        <div class="text-end">
+          <a href="#" class="btn btn-primary" onclick="onLogin()">Login</a>
         </div>
       </div>
     </div>
+  </div>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"
-      integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-      integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"
+    integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script>
-      const onLogin = async () => {
-        const [userId, userPin] = [
-          $('#tbank-user-id').val(),
-          $('#tbank-user-pin').val()
-        ]
+  <script>
+    const onLogin = async () => {
+      const [userId, userPin] = [
+        $('#tbank-user-id').val(),
+        $('#tbank-user-pin').val()
+      ]
 
-        await sendOtp(userId, userPin)
-      }
+      await sendOtp(userId, userPin)
+    }
 
-      const sendOtp = async (userId, pin) => {
-        const headerObj = JSON.stringify({
-          serviceName: 'requestOTP',
-          userID: userId,
-          PIN: pin,
-          OTP: ''
+    const sendOtp = async (userId, pin) => {
+      const headerObj = JSON.stringify({
+        serviceName: 'requestOTP',
+        userID: userId,
+        PIN: pin,
+        OTP: ''
+      })
+
+      const response = await $.post(
+        `http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`
+      )
+      const errorText =
+        response.Content.ServiceResponse.ServiceRespHeader.ErrorDetails
+
+      if (errorText.includes('Login failed')) {
+        swal({
+          title: 'Invalid account',
+          text: errorText,
+          icon: 'error',
+          dangerMode: true
         })
-
-        const response = await $.post(
-          `http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`
-        )
-        const errorText =
-          response.Content.ServiceResponse.ServiceRespHeader.ErrorDetails
-
-        if (errorText.includes('Login failed')) {
-          swal({
-            title: 'Invalid account',
-            text: errorText,
-            icon: 'error',
-            dangerMode: true
-          })
-        } else {
-          swal({
-            title: 'OTP',
-            text: 'Please enter 6-digits code sent to your mobile',
-            content: 'input'
-          })
-            .then((otp) => {
-              if (!otp)
-                swal({
-                  title: 'Incorrect OTP',
-                  text: 'Please try again.',
-                  icon: 'error',
-                  dangerMode: true
-                })
-
-              return verifyOtp(userId, pin, otp)
-            })
-            .then((accessToken) => {
-              localStorage.setItem('accessToken', JSON.stringify(accessToken))
-              loginUser()
-            })
-            .catch((error) => {
+      } else {
+        swal({
+          title: 'OTP',
+          text: 'Please enter 6-digits code sent to your mobile',
+          content: 'input'
+        })
+          .then((otp) => {
+            if (!otp)
               swal({
                 title: 'Incorrect OTP',
-                text: error.message,
+                text: 'Please try again.',
                 icon: 'error',
                 dangerMode: true
               })
-            })
-        }
-      }
 
-      const verifyOtp = async (userId, pin, otp) => {
-        const headerObj = JSON.stringify({
-          serviceName: 'getCustomerDetails',
-          userID: userId,
-          PIN: pin,
-          OTP: otp
-        })
-
-        const response = await $.post(
-          `http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`
-        )
-        const errorDetails =
-          response.Content.ServiceResponse.ServiceRespHeader.ErrorText
-
-        if (errorDetails.includes('invocation successful')) {
-          return { userID: userId, PIN: pin, OTP: otp }
-        }
-
-        throw new Error('Invalid OTP provided.')
-      }
-
-      const loginUser = async () => {
-        const accessToken = JSON.parse(localStorage.getItem('accessToken'))
-        const isLender = $('#lender-checkbox').prop('checked')
-
-        const { status, message, redirect } = await $.post('/api/auth/login', {
-          accessToken,
-          isLender
-        })
-
-        if (status === 200) {
-          location.href = redirect
-        } else {
-          swal({
-            title: 'An error occurred',
-            text: message,
-            icon: 'error',
-            dangerMode: true
+            return verifyOtp(userId, pin, otp)
           })
-        }
+          .then((accessToken) => {
+            localStorage.setItem('accessToken', JSON.stringify(accessToken))
+            loginUser()
+          })
+          .catch((error) => {
+            swal({
+              title: 'Incorrect OTP',
+              text: error.message,
+              icon: 'error',
+              dangerMode: true
+            })
+          })
       }
-    </script>
-  </body>
+    }
+
+    const verifyOtp = async (userId, pin, otp) => {
+      const headerObj = JSON.stringify({
+        serviceName: 'getCustomerDetails',
+        userID: userId,
+        PIN: pin,
+        OTP: otp
+      })
+
+      const response = await $.post(
+        `http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`
+      )
+      const errorDetails =
+        response.Content.ServiceResponse.ServiceRespHeader.ErrorText
+
+      if (errorDetails.includes('invocation successful')) {
+        return { userID: userId, PIN: pin, OTP: otp }
+      }
+
+      throw new Error('Invalid OTP provided.')
+    }
+
+    const loginUser = async () => {
+      const accessToken = JSON.parse(localStorage.getItem('accessToken'))
+      const isLender = $('#lender-checkbox').prop('checked')
+
+      const { status, message, redirect } = await $.post('/api/auth/login', {
+        accessToken,
+        isLender
+      })
+
+      if (status === 200) {
+        location.href = redirect
+      } else {
+        swal({
+          title: 'An error occurred',
+          text: message,
+          icon: 'error',
+          dangerMode: true
+        })
+      }
+    }
+  </script>
+</body>
+
 </html>
