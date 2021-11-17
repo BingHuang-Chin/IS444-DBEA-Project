@@ -167,6 +167,11 @@
 
       swal('Success!', message, 'success')
     }
+
+    function logout() {
+      localStorage.removeItem('accessToken')
+      window.location = '/pages/login.html'
+    }
   </script>
 </body>
 
