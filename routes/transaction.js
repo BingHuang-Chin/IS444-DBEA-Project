@@ -17,7 +17,7 @@ router.get("/history", async (req, res) => {
   }
 })
 
-function getTransactionHistory (userId) {
+function getTransactionHistory(userId) {
   return mySql.handleQuery(`
     SELECT th.id, user_id, ts.title as transaction_status , amount, source_account , dest_account , created_at 
     FROM transaction_history th

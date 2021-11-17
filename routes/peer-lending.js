@@ -77,7 +77,7 @@ router.post("/", async (req, res) => {
   }
 })
 
-async function getUser (userId) {
+async function getUser(userId) {
   return mySql.handleQuery(`
     SELECT *
     FROM fc_user
@@ -85,7 +85,7 @@ async function getUser (userId) {
   `, [userId])
 }
 
-async function getListings (userId = null) {
+async function getListings(userId = null) {
   if (userId)
     return mySql.handleQuery(`
       SELECT *
@@ -100,7 +100,7 @@ async function getListings (userId = null) {
   `)
 }
 
-async function createListing (record) {
+async function createListing(record) {
   const { userId, committedAmount, interestRate } = record
 
   return mySql.handleQuery(`

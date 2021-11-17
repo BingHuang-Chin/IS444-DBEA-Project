@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
     return res.json({ status: 401, message: "Unauthorized access." })
 
   if (!receivingAccount)
-  return res.json({ status: 400, message: "Receiving account not provided." })
+    return res.json({ status: 400, message: "Receiving account not provided." })
 
   if (!withdrawAmount)
     return res.json({ status: 400, message: "Withdrawal amount not provided." })
@@ -60,7 +60,7 @@ router.post("/", async (req, res) => {
   }
 })
 
-async function getUser (userId) {
+async function getUser(userId) {
   return mySql.handleQuery(`
     SELECT *
     FROM fc_user
@@ -68,7 +68,7 @@ async function getUser (userId) {
   `, [userId])
 }
 
-async function updateCredits (userId, amount) {
+async function updateCredits(userId, amount) {
   return mySql.handleQuery(`
     UPDATE fc_user
     SET
@@ -77,7 +77,7 @@ async function updateCredits (userId, amount) {
   `, [amount, userId])
 }
 
-async function createTransactionHistory (userId, sourceAccount, destAccount, amount) {
+async function createTransactionHistory(userId, sourceAccount, destAccount, amount) {
   return mySql.handleQuery(`
     INSERT INTO transaction_history (user_id, source_account, dest_account, amount)
     VALUES
@@ -85,7 +85,7 @@ async function createTransactionHistory (userId, sourceAccount, destAccount, amo
   `, [userId, sourceAccount, destAccount, amount])
 }
 
-async function updateTransactionHistory (statusCode, txRef) {
+async function updateTransactionHistory(statusCode, txRef) {
   return mySql.handleQuery(`
     UPDATE transaction_history
     SET

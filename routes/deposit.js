@@ -53,7 +53,7 @@ router.post("/", async (req, res) => {
   return res.json({ status: 200, message: `Successfully deposited $${amount}.` })
 })
 
-async function getUser (userId) {
+async function getUser(userId) {
   return mySql.handleQuery(`
     SELECT * 
     FROM fc_user
@@ -61,7 +61,7 @@ async function getUser (userId) {
   `, [userId])
 }
 
-async function updateCredits (userId, currentAmount, topUpAmount) {
+async function updateCredits(userId, currentAmount, topUpAmount) {
   return mySql.handleQuery(`
     UPDATE fc_user
     SET
@@ -70,7 +70,7 @@ async function updateCredits (userId, currentAmount, topUpAmount) {
   `, [parseFloat(currentAmount) + parseFloat(topUpAmount), userId])
 }
 
-async function createTransactionHistory (userId, sourceAccount, destAccount, amount) {
+async function createTransactionHistory(userId, sourceAccount, destAccount, amount) {
   return mySql.handleQuery(`
     INSERT INTO transaction_history (user_id, source_account, dest_account, amount)
     VALUES
@@ -78,7 +78,7 @@ async function createTransactionHistory (userId, sourceAccount, destAccount, amo
   `, [userId, sourceAccount, destAccount, amount])
 }
 
-async function updateTransactionHistory (statusCode, txRef) {
+async function updateTransactionHistory(statusCode, txRef) {
   return mySql.handleQuery(`
     UPDATE transaction_history
     SET
