@@ -148,7 +148,23 @@ router.post("/request/:id/approve", async (req, res) => {
  * Lenders reject a loan request
  */
 router.post("/request/:id/reject", async (req, res) => {
-  res.json({ initial: "implementation " })
+  let { accessToken } = req.body
+  const { id } = req.params
+
+  if (!accessToken)
+    return res.json({ status: 401, message: "Unauthorized access." })
+
+  try {
+    const loans = await getLoans(id)
+    if (loans.length === 0)
+      return res.json({ status: 400, message: "Invalid loan." })
+
+    await rejectLoan(id)
+    return res.json({ status: 200, message: "Successfully rejected loan." })
+  } catch (e) {
+    console.error(e)
+    return res.json({ status: 500, message: "Internal server error" })
+  }
 })
 
 /**
