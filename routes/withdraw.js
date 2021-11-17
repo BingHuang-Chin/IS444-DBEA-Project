@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
     if (credits < withdrawAmount)
       return res.json({ status: 400, message: "Insufficient credits to withdraw." })
 
-    await tBank.addBeneficiary(accessToken, { AccountID: accessToken.userID, Description: "Member of FastCash." })
+    await tBank.addBeneficiary({ userID: "BH123123", PIN: "123456", OTP: "999999" }, { AccountID: receivingAccount, Description: "Member of FastCash." })
     const { insertId } = await createTransactionHistory(accessToken.userID, Constant.merchantAccount, receivingAccount, withdrawAmount)
     txRef = insertId
 
