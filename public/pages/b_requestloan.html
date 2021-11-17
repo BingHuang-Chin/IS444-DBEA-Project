@@ -115,7 +115,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="mb-3">Request Loan</h5>
-              <form action="b_requestloan.php" method="post" id="requestform">
+              <form id="requestform">
                 <div class = "form-group">
                   <label for = "PrincipalAmt">Principal Amount($): </label>
                   <input type="number" class="form-control" id="PrincipalAmt" name="PrincipalAmt">
@@ -132,7 +132,7 @@
                   <label for = "ReceivingAcc">Receiving Account (account number): </label>
                   <input type="number" class="form-control" id="ReceivingAcc" name="ReceivingAcc">
                 </div><br>
-                <button type="submit" class="btn btn-primary" id="requestBtn">Request</button>
+                <button type="submit" class="btn btn-primary" id="requestBtn" onclick="requestLoan()">Request</button>
               </form>
             </div>
           </div>
@@ -168,27 +168,37 @@
       let _userData = null
       let _loanData = null
 
-      var settings = {
-        "url": "/api/loan/request",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-          "accessToken": {
-            "userID": "BH123123",
-            "PIN": "123456",
-            "OTP": "827940"
-          },
-          "peerListingId": 1,
-          "paymentDuration": 1
-        }),
-      };
+      function requestLoan(){
+        var amt=document.getElementById("PrincipalAmt").value
+        var intRate = document.getElementById("IntRate").value
+        var months = document.getElementById("Months").value
+        var receivingAcc = document.getElementById("ReceivingAcc").value
+        console.log(amt)
 
-      $.ajax(settings).done(function (response) {
-        console.log(response);
-      });
+        var settings = {
+          "url": "/api/loan/request",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": JSON.stringify({
+            "accessToken": {
+              "userID": "BH123123",
+              "PIN": "123456",
+              "OTP": "827940"
+            },
+            "peerListingId": 1,
+            "paymentDuration": months
+          }),
+        };
+
+        $.ajax(settings).done(function (response) {
+          console.log(response);
+        });
+
+      }
+      
 
       $(document).ready(async () => {
         const accessToken = localStorage.getItem('accessToken')

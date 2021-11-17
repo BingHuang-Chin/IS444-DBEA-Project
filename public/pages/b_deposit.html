@@ -115,17 +115,18 @@
           <div class="card">
             <div class="card-body">
               <h5 class="mb-3">Deposit Form</h5>
-              <form action="##" method="post" id="requestform">
+
+              <form id="depositForm">
                 <div class = "form-group">
                   <label for = "PrincipalAmt">Principal Amount($): </label>
                   <input type="number" class="form-control" id="PrincipalAmt" name="PrincipalAmt">
                 </div>
                 <div class = "form-group">
-                  <label for = "IntRate">From Account: </label>
-                  <input type="number" class="form-control" id="IntRate" name="IntRate">
+                  <label for = "fromAccount">From Account (e.g 0000007738): </label>
+                  <input type="number" class="form-control" id="fromAccount" name="IntRate">
                 </div>
                 <br>
-                <button type="submit" class="btn btn-primary" id="depositBtn">Deposit</button>
+                <button type="submit" class="btn btn-primary" id="depositBtn" onclick="depositForm()">Deposit</button>
               </form>
             </div>
           </div>
@@ -157,8 +158,13 @@
     ></script>
 
     <script>
-      const accessToken = localStorage.getItem('accessToken')
-      var settings = {
+      function depositForm(){
+        var amt=document.getElementById("PrincipalAmt").value
+        var fromAccount= document.getElementById("fromAccount").value
+        console.log(amt)
+        console.log(fromAccount)
+
+        var settings = {
         "url": "http://localhost:3000/api/deposit",
         "method": "POST",
         "timeout": 0,
@@ -171,14 +177,21 @@
             "PIN": "123456",
             "OTP": "972105"
           },
-          "amount": 100, // amount they are depositing into fast-cash
-          "account": "0000007738" // The source account to transfer to fast-cash
+          "amount": Amt, // amount they are depositing into fast-cash
+          "account": fromAccount // The source account to transfer to fast-cash "0000007738"
         }),
       };
 
       $.ajax(settings).done(function (response) {
         console.log(response);
       });
+
+      }
+
+      const accessToken = localStorage.getItem('accessToken')
+      console.log(accessToken)
+      console.log(typeof(accessToken)) 
+      
 
       function logout() {
         localStorage.removeItem('accessToken')

@@ -337,15 +337,27 @@
 
       // start of the listing all available loans stuff
 
-      const accessToken = localStorage.getItem('accessToken')
-      var settings = {
-        url: `/api/peer?accessToken=${accessToken}`,
-        method: 'GET'
-      }
+      // const accessToken = localStorage.getItem('accessToken')
+      // var settings = {
+      //   url: `/api/peer?accessToken=${accessToken}`,
+      //   method: 'GET'
+      // }
 
-      $.ajax(settings).done(function (response) {
-        console.log(response)
-      })
+      // $.ajax(settings).done(function (response) {
+      //   const { data } = response
+
+      //   for (const row of data) {
+      //     console.log(row)
+      //     $('#loan-request tbody').append(`
+      //       <tr>
+      //         <td>${id}</td>
+      //         <td>${commited_amount}</td>
+      //         <td>${interest_rate} </td>
+      //       </tr>
+      //       `)
+      //   }
+                    
+      // })
 
       // end of the listing all available loans stuff
 
