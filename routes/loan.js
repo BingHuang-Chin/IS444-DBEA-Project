@@ -13,6 +13,16 @@ router.get("/", async (req, res) => {
 
   try {
     accessToken = JSON.parse(accessToken)
+    const user = await getUser(accessToken.userID)
+    if (user.length === 0)
+      return res.json({ status: 401, message: "Invalid user." })
+
+    const { is_lender } = user[0]
+    if (is_lender) {
+      const loans = await getLoansByLister(accessToken.userID)
+      return res.json({ status: 200, data: loans })
+    }
+
     const loans = await getLoansByUser(accessToken.userID)
     return res.json({ status: 200, data: loans })
   } catch (e) {
@@ -163,6 +173,17 @@ async function getLoansByUser (userId) {
     INNER JOIN loan_status
     ON loan_status = loan_status.id
     WHERE user_id = ?
+    ORDER BY loans.id asc;
+  `, [userId])
+}
+
+async function getLoansByLister (userId) {
+  return mySql.handleQuery(`
+    SELECT loans.id, user_id, loan_amount, title as loan_status, loaned_by, payment_duration, due_date, interest
+    FROM loans
+    INNER JOIN loan_status
+    ON loan_status = loan_status.id
+    WHERE loaned_by = ?
     ORDER BY loans.id asc;
   `, [userId])
 }
