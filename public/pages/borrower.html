@@ -57,9 +57,9 @@
           <div class="card mx-2 rounded">
             <div class="card-body">
               <p class="card-text">
-                <span class="d-block fs-6 fw-bold text-secondary mb-2"
-                  >Lending</span
-                >
+                <span class="d-block fs-6 fw-bold text-secondary mb-2">
+                  Lending
+                </span>
 
                 <a
                   href="/pages/peer_lending.html"
@@ -99,7 +99,12 @@
               </ul>
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <div class="text-danger">Logout</div>
+                  <button
+                    class="text-danger bg-transparent border-0"
+                    onclick="logout()"
+                  >
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>
@@ -144,7 +149,8 @@
             </div>
 
             <div class="d-flex align-items-center card-footer">
-              Available credits: <span class="px-2 fw-bold" id="available-credits">-</span>
+              Available credits:
+              <span class="px-2 fw-bold" id="available-credits">-</span>
               <button class="btn btn-primary ms-auto">Deposit</button>
             </div>
           </div>
@@ -195,6 +201,11 @@
         $('#current-level').text(`Level ${level}`)
         $('#available-credits').text(`$${credits}`)
       })
+
+      function logout() {
+        localStorage.removeItem('accessToken')
+        window.location = '/pages/login.html'
+      }
     </script>
   </body>
 </html>
