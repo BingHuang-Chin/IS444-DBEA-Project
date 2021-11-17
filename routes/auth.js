@@ -38,6 +38,9 @@ router.post("/login", async (req, res) => {
     isLender = is_lender
   }
 
+  if (typeof isLender === "string")
+    isLender = isLender === "true"
+
   res.json({
     status: 200,
     message: "Successfully registered with FastCash.",
