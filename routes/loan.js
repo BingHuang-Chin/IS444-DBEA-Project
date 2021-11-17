@@ -183,12 +183,12 @@ router.post("/repay", async (req, res) => {
   try {
     const loans = await getOfferedLoans(accessToken.userID)
     if (loans.length === 0)
-    return res.json({ status: 400, message: "No loans to repay." })
+      return res.json({ status: 400, message: "No loans to repay." })
 
     const { id, loaned_by, loan_amount, interest } = loans[0]
     const totalPayment = parseFloat(loan_amount) + parseFloat(loan_amount * (interest / 100))
 
-    const { credits: borrowerCredits } = user[0]
+    let { credits: borrowerCredits, current_exp, total_exp, level } = user[0]
     const { credits: lenderCredits } = (await getUser(loaned_by))[0]
     if (borrowerCredits < totalPayment)
       return res.json({ status: 400, message: "Insufficient amount to repay." })
@@ -199,8 +199,18 @@ router.post("/repay", async (req, res) => {
       sourceFinalAmount: borrowerCredits - totalPayment,
       sourceUserId: accessToken.userID
     })
-
     await repayLoan(id)
+
+    current_exp = parseInt(current_exp)
+    total_exp = parseInt(total_exp)
+    level = parseInt(level)
+
+    if (current_exp + 1 === total_exp) {
+      level += 1
+      current_exp = 0
+    }
+
+    await updateUserLevel(accessToken.userID, level, current_exp)
     return res.json({ status: 200, message: "Successfully repaid loan." })
   } catch (e) {
     console.error(e)
@@ -331,6 +341,16 @@ async function transferFastCashCredits ({ sourceUserId, sourceFinalAmount, destU
       WHERE user_id = ?
     `, [destFinalAmount, destUserId])
   ])
+}
+
+async function updateUserLevel (userId, level, currentExp) {
+  return mySql.handleQuery(`
+    UPDATE fc_user
+    SET
+    level = ?,
+    current_exp = ?
+    WHERE user_id = ?
+  `, [level, currentExp, userId])
 }
 
 module.exports = router

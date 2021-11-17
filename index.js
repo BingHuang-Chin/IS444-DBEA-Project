@@ -3,6 +3,7 @@ const { init: initMySql } = require("./lib/mysql-wrapper")
 
 const authRouter = require("./routes/auth")
 const depositRouter = require("./routes/deposit")
+const withdrawRouter = require("./routes/withdraw")
 const loanRouter = require("./routes/loan")
 const peerRouter = require("./routes/peer-lending")
 const transactionRouter = require("./routes/transaction")
