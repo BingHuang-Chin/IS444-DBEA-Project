@@ -57,19 +57,18 @@
           <div class="card mx-2 rounded">
             <div class="card-body">
               <p class="card-text">
-                <span class="d-block fs-6 fw-bold text-secondary mb-2">
-                  Lending
+                <span class="d-block fs-6 fw-bold text-secondary py-2">
+                  Dashboard
                 </span>
-
                 <a
-                  href="/pages/peer_lending.html"
+                  href="/pages/b_deposit.html"
                   class="d-block text-decoration-none py-2"
-                  >Peer lending</a
+                  >Deposit</a
                 >
                 <a
-                  href="/pages/lending_pool.html"
+                  href="/pages/b_requestloan.html"
                   class="d-block text-decoration-none py-2"
-                  >Lending pool</a
+                  >Request Loan</a
                 >
               </p>
             </div>
@@ -152,6 +151,31 @@
               Available credits:
               <span class="px-2 fw-bold" id="available-credits">-</span>
               <button class="btn btn-primary ms-auto">Deposit</button>
+              <!-- Button trigger modal -->
+              <!-- <button class="btn btn-primary ms-auto" data-toggle="modal" data-target="#exampleModal" >
+                Deposit
+              </button> -->
+
+              <!-- Modal -->
+              <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
             </div>
           </div>
 
@@ -271,6 +295,20 @@
           `)
         }
       })
+
+      // start of the listing all available loans stuff
+
+      const accessToken = localStorage.getItem('accessToken')
+      var settings = {
+        url: `/api/peer?accessToken=${accessToken}`,
+        method: 'GET'
+      }
+
+      $.ajax(settings).done(function (response) {
+        console.log(response)
+      })
+
+      // end of the listing all available loans stuff
 
       function logout() {
         localStorage.removeItem('accessToken')

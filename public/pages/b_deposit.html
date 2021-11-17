@@ -60,16 +60,17 @@
                 <a
                   href="/pages/borrower.html"
                   class="d-block text-decoration-none py-2"
-                  >Dashboard</a
-                >
-                <a
-                  href="/pages/b_deposit.html"
-                  class="d-block text-decoration-none py-2"
-                  >Deposit</a
-                >
+                  >Dashboard
+                </a>
+                
                 <span class="d-block fs-6 fw-bold text-secondary py-2">
-                  Request Loan
+                  Deposit
                 </span>
+                <a
+                  href="/pages/b_requestloan.html"
+                  class="d-block text-decoration-none py-2"
+                  >Request Loan
+                </a>
               </p>
             </div>
           </div>
@@ -93,7 +94,7 @@
             <div class="collapse navbar-collapse">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <h2>Request Loan</h2>
+                  <h2>Deposit</h2>
                 </li>
               </ul>
               <ul class="navbar-nav">
@@ -110,33 +111,24 @@
           </div>
         </nav>
 
-        
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="mb-3">Request Loan</h5>
-              <form action="b_requestloan.php" method="post" id="requestform">
+              <h5 class="mb-3">Deposit Form</h5>
+              <form action="##" method="post" id="requestform">
                 <div class = "form-group">
                   <label for = "PrincipalAmt">Principal Amount($): </label>
                   <input type="number" class="form-control" id="PrincipalAmt" name="PrincipalAmt">
                 </div>
                 <div class = "form-group">
-                  <label for = "IntRate">Interest Rate(%): </label>
+                  <label for = "IntRate">From Account: </label>
                   <input type="number" class="form-control" id="IntRate" name="IntRate">
                 </div>
-                <div class = "form-group">
-                  <label for = "Months">Months to pay off loan: </label>
-                  <input type="number" class="form-control" id="Months" name="Months"> 
-                </div>
-                <div class = "form-group">
-                  <label for = "ReceivingAcc">Receiving Account (account number): </label>
-                  <input type="number" class="form-control" id="ReceivingAcc" name="ReceivingAcc">
-                </div><br>
-                <button type="submit" class="btn btn-primary" id="requestBtn">Request</button>
+                <br>
+                <button type="submit" class="btn btn-primary" id="depositBtn">Deposit</button>
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -165,45 +157,28 @@
     ></script>
 
     <script>
-      let _userData = null
-      let _loanData = null
-
+      const accessToken = localStorage.getItem('accessToken')
       var settings = {
-        "url": "/api/loan/request",
+        "url": "http://localhost:3000/api/deposit",
         "method": "POST",
         "timeout": 0,
         "headers": {
           "Content-Type": "application/json"
         },
         "data": JSON.stringify({
-          "accessToken": {
-            "userID": "BH123123",
+          "accessToken": { // can be retrieved through localStorage
+            "userID": "BH123123", 
             "PIN": "123456",
-            "OTP": "827940"
+            "OTP": "972105"
           },
-          "peerListingId": 1,
-          "paymentDuration": 1
+          "amount": 100, // amount they are depositing into fast-cash
+          "account": "0000007738" // The source account to transfer to fast-cash
         }),
       };
 
       $.ajax(settings).done(function (response) {
         console.log(response);
       });
-
-      $(document).ready(async () => {
-        const accessToken = localStorage.getItem('accessToken')
-        const [
-          { status: userStatus, data: userData },
-          { status: loanStatus, data: loanData }
-        ] = await Promise.all([
-          $.get(`/api/auth/user?accessToken=${accessToken}`),
-          $.get(`/api/loan/current?accessToken=${accessToken}`)
-        ])
-
-        _userData = userData
-        _loanData = loanData
-
-      })
 
       function logout() {
         localStorage.removeItem('accessToken')
