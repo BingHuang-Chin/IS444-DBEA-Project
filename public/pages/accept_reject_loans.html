@@ -140,7 +140,7 @@
                     const { data } = response
 
                     for (const row of data) {
-                        const { id, user_id, loan_amount } = row
+                        const { id, user_id } = row
                         $('#loan-request tbody').append(`
                       <tr>
                         <td>${id}</td>
