@@ -447,24 +447,15 @@
           title: 'Loan',
           content: $(`
             <div class="container text-start">
-              <div class="mb-4">
-                <label class="form-label">Account</label>
-                <select id="account-number" class="form-select">${accountOptions}</select>
-              </div>
 
               <div class="mb-4">
                 <label class="form-label">Principle amount</label>
-                <input type="number" class="form-control" id="principle-amount" placeholder="100" />
+                <input type="number" class="form-control" id="principle-amount" placeholder="250" />
               </div>
 
               <div class="mb-4">
                 <label class="form-label">Interest Rate(%)</label>
-                <input type="number" class="form-control" id="intRate" placeholder="100" />
-              </div>
-
-              <div class="mb-4">
-                <label class="form-label">Months to repay loan: </label>
-                <input type="number" class="form-control" id="monthsRepay" placeholder="3" />
+                <input type="number" class="form-control" id="intRate" placeholder="20" />
               </div>
 
             </div>
@@ -474,30 +465,19 @@
         if (!modalResponse)
           return
 
-        const accountNumber = $("#account-number").val()
-        const commited_amount = $("#principle-amount").val()
+        const committed_amount = $("#principle-amount").val()
         const interest_rate = $("#intRate").val()
-        const paymentDuration = $("#monthsRepay").val()
 
-        if (!commited_amount || parseFloat(commited_amount) < 100)
-          return swal(
-            'Loan Creation',
-            'Principle amount cannot be lower than $100',
-            'error'
-          )
-
-        const { status, message } = await $.post('/api/loan', {
+        const { status, message } = await $.post('/api/peer', {
           accessToken: JSON.parse(localStorage.getItem('accessToken')),
-          // peerListingId: , 
-          paymentDuration: paymentDuration,
-          account: accountNumber,
-          amount: parseFloat(commited_amount)
+          committedAmount : parseFloat(committed_amount),
+          interestRate : interest_rate,
         })
 
         if (status !== 200)
           return swal('Error', message, 'error')
 
-        await swal('Deposit', message, 'success')
+        await swal('Create Loan', message, 'success')
         location.reload()
       }
 
