@@ -186,7 +186,7 @@ router.post("/repay", async (req, res) => {
     return res.json({ status: 400, message: "No loans to repay." })
 
     const { id, loaned_by, loan_amount, interest } = loans[0]
-    const totalPayment = loan_amount + (loan_amount * (interest / 100))
+    const totalPayment = parseFloat(loan_amount) + parseFloat(loan_amount * (interest / 100))
 
     const { credits: borrowerCredits } = user[0]
     const { credits: lenderCredits } = (await getUser(loaned_by))[0]
