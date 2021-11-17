@@ -394,6 +394,17 @@
             'Withdrawal amount cannot be lower than $100',
             'error'
           )
+
+        const { status, message } = await $.post('/api/withdraw', { 
+          accessToken: JSON.parse(localStorage.getItem('accessToken')) ,
+          receivingAccount: accountNumber,
+          withdrawAmount: withdrawalAmount
+        })
+
+        if (status !== 200)
+          return swal('Error', message, 'error')
+
+        return swal('Success', message, 'success')
       }
     </script>
   </body>
