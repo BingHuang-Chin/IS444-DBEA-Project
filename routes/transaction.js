@@ -19,10 +19,12 @@ router.get("/history", async (req, res) => {
 
 function getTransactionHistory (userId) {
   return mySql.handleQuery(`
-    SELECT *
-    FROM transaction_history
+    SELECT th.id, user_id, title, amount, source_account , dest_account , created_at 
+    FROM transaction_history th
+    INNER JOIN transaction_status ts
+    ON transaction_status = ts.id
     WHERE user_id = ?
-    ORDER BY id DESC
+    ORDER BY th.id DESC
   `, [userId])
 }
 
