@@ -286,7 +286,7 @@
         window.location = '/pages/login.html'
       }
 
-      function repayLoan() {
+      async function repayLoan() {
         const { credits } = _userData
         const { loan_amount, interest } = _loanData
         const repayAmount =
@@ -295,10 +295,19 @@
         if (parseFloat(credits) < repayAmount)
           return swal('Error', 'Insufficient credits to repay loan.', 'error')
 
-        swal({
-          title: 'Repay',
-          text: ''
+        const modalResponse = await swal({
+          title: 'Confirmation',
+          text: 'Are you sure you want to repay?',
+          buttons: {
+            cancel: true,
+            confirm: 'Yes'
+          }
         })
+        
+        if (!modalResponse)
+          return
+
+        
       }
 
       async function depositCredits() {
