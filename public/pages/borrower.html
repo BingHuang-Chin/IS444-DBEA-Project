@@ -61,14 +61,14 @@
                   Dashboard
                 </span>
                 <a
-                  href="/pages/b_deposit.html"
+                  href="/pages/peer-lending.html"
                   class="d-block text-decoration-none py-2"
-                  >Deposit</a
+                  >Peer lending</a
                 >
                 <a
-                  href="/pages/b_requestloan.html"
+                  href="/pages/lending-pool.html"
                   class="d-block text-decoration-none py-2"
-                  >Request Loan</a
+                  >Lending pool</a
                 >
               </p>
             </div>
@@ -248,10 +248,6 @@
             <p class="d-inline-block text-secondary mb-0">
               No loans taken
             </p>
-
-            <button class="btn btn-primary ms-auto">
-              View loans
-            </button>
           `)
         else {
           const { loan_amount, due_date, interest } = loanData
@@ -334,32 +330,6 @@
           `)
         }
       })
-
-      // start of the listing all available loans stuff
-
-      // const accessToken = localStorage.getItem('accessToken')
-      // var settings = {
-      //   url: `/api/peer?accessToken=${accessToken}`,
-      //   method: 'GET'
-      // }
-
-      // $.ajax(settings).done(function (response) {
-      //   const { data } = response
-
-      //   for (const row of data) {
-      //     console.log(row)
-      //     $('#loan-request tbody').append(`
-      //       <tr>
-      //         <td>${id}</td>
-      //         <td>${commited_amount}</td>
-      //         <td>${interest_rate} </td>
-      //       </tr>
-      //       `)
-      //   }
-                    
-      // })
-
-      // end of the listing all available loans stuff
 
       function logout() {
         localStorage.removeItem('accessToken')

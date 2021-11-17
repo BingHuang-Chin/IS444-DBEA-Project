@@ -13,6 +13,16 @@ router.get("/", async (req, res) => {
 
   try {
     accessToken = JSON.parse(accessToken)
+    const user = await getUser(accessToken.userID)
+    if (user.length === 0)
+      return res.json({ status: 401, message: "Invalid user." })
+
+    const { is_lender } = user[0]
+    if (is_lender) {
+      const loans = await getLoansByLister(accessToken.userID)
+      return res.json({ status: 200, data: loans })
+    }
+
     const loans = await getLoansByUser(accessToken.userID)
     return res.json({ status: 200, data: loans })
   } catch (e) {
@@ -138,14 +148,64 @@ router.post("/request/:id/approve", async (req, res) => {
  * Lenders reject a loan request
  */
 router.post("/request/:id/reject", async (req, res) => {
-  res.json({ initial: "implementation " })
+  let { accessToken } = req.body
+  const { id } = req.params
+
+  if (!accessToken)
+    return res.json({ status: 401, message: "Unauthorized access." })
+
+  try {
+    const loans = await getLoans(id)
+    if (loans.length === 0)
+      return res.json({ status: 400, message: "Invalid loan." })
+
+    await rejectLoan(id)
+    return res.json({ status: 200, message: "Successfully rejected loan." })
+  } catch (e) {
+    console.error(e)
+    return res.json({ status: 500, message: "Internal server error" })
+  }
 })
 
 /**
  * Borrowers repay loans one-shot
  */
 router.post("/repay", async (req, res) => {
-  res.json({ initial: "implementation " })
+  let { accessToken } = req.body
+
+  if (!accessToken)
+    return res.json({ status: 401, message: "Unauthorized access." })
+
+  const user = await getUser(accessToken.userID)
+  if (user.length === 0)
+    return res.json({ status: 401, message: "Invalid user." })
+
+  try {
+    const loans = await getOfferedLoans(accessToken.userID)
+    if (loans.length === 0)
+    return res.json({ status: 400, message: "No loans to repay." })
+
+    const { id, loaned_by, loan_amount, interest } = loans[0]
+    const totalPayment = parseFloat(loan_amount) + parseFloat(loan_amount * (interest / 100))
+
+    const { credits: borrowerCredits } = user[0]
+    const { credits: lenderCredits } = (await getUser(loaned_by))[0]
+    if (borrowerCredits < totalPayment)
+      return res.json({ status: 400, message: "Insufficient amount to repay." })
+
+    await transferFastCashCredits({
+      destFinalAmount: lenderCredits + totalPayment,
+      destUserId: loaned_by,
+      sourceFinalAmount: borrowerCredits - totalPayment,
+      sourceUserId: accessToken.userID
+    })
+
+    await repayLoan(id)
+    return res.json({ status: 200, message: "Successfully repaid loan." })
+  } catch (e) {
+    console.error(e)
+    return res.json({ status: 500, message: "Internal server error" })
+  }
 })
 
 async function getUser (userId) {
@@ -163,6 +223,17 @@ async function getLoansByUser (userId) {
     INNER JOIN loan_status
     ON loan_status = loan_status.id
     WHERE user_id = ?
+    ORDER BY loans.id asc;
+  `, [userId])
+}
+
+async function getLoansByLister (userId) {
+  return mySql.handleQuery(`
+    SELECT loans.id, user_id, loan_amount, title as loan_status, loaned_by, payment_duration, due_date, interest
+    FROM loans
+    INNER JOIN loan_status
+    ON loan_status = loan_status.id
+    WHERE loaned_by = ?
     ORDER BY loans.id asc;
   `, [userId])
 }
@@ -231,6 +302,15 @@ async function rejectLoan (loanId) {
     UPDATE loans
     SET
     loan_status = 3
+    WHERE id = ?
+  `, [loanId])
+}
+
+async function repayLoan (loanId) {
+  return mySql.handleQuery(`
+    UPDATE loans
+    SET
+    loan_status = 4
     WHERE id = ?
   `, [loanId])
 }
