@@ -208,6 +208,8 @@ router.post("/repay", async (req, res) => {
     if (current_exp + 1 === total_exp) {
       level += 1
       current_exp = 0
+    } else {
+      current_exp += 1
     }
 
     await updateUserLevel(accessToken.userID, level, current_exp)
