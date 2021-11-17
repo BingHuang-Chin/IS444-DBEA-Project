@@ -67,7 +67,7 @@ async function updateCredits (userId, currentAmount, topUpAmount) {
     SET
     credits = ?
     WHERE user_id = ?;
-  `, [currentAmount + topUpAmount, userId])
+  `, [parseFloat(currentAmount) + parseFloat(topUpAmount), userId])
 }
 
 async function createTransactionHistory (sourceAccount, destAccount, amount) {
