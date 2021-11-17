@@ -21,6 +21,24 @@ router.get("/", async (req, res) => {
   }
 })
 
+router.get("/current", async (req, res) => {
+  let { accessToken } = req.query
+  if (!accessToken)
+    return res.json({ status: 401, message: "Unauthorized access." })
+
+  try {
+    accessToken = JSON.parse(accessToken)
+    const loans = await getOfferedLoans(accessToken.userID)
+    if (loans.length === 0)
+      return res.json({ status: 200, data: null })
+
+    return res.json({ status: 200, data: loans[0] })
+  } catch (e) {
+    console.error(e)
+    return res.json({ status: 500, message: "Internal server error" })
+  }
+})
+
 /**
  * Borrowers requests loans from lender
  * paymentDuration - contains months where the borrower wants to payback the loaned amount.
