@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
   let txRef = null
 
   if (!accessToken)
-    return res.json({ status: 200, message: "Unauthorized access." })
+    return res.json({ status: 401, message: "Unauthorized access." })
 
   if (!receivingAccount)
   return res.json({ status: 400, message: "Receiving account not provided." })
