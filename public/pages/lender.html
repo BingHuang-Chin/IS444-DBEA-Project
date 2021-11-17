@@ -345,14 +345,19 @@
         else {
           let trList = ''
           requestedLoanData.forEach(tx => {
-            const { id, title: transaction_status, amount, created_at, dest_account, source_account } = tx
+            const { id, user_id, loan_amount, payment_duration, due_date } = tx
 
             trList += `
             <tr>
               <td>${id}</td>
               <td>${user_id}</td>
-              <td> <button type="button" class="btn btn-success btn-sm" data-toggle="button" aria-pressed="false" value="Submit" onclick = "approve(${id})">Approve</button> </td>
-              <td> <button type="button" class="btn btn-danger btn-sm" data-toggle="button" aria-pressed="false" value="Submit" onclick = "reject(${id})">Reject</button> </td>
+              <td>${loan_amount}</td>
+              <td>${payment_duration}</td>
+              <td>${luxon.DateTime.fromISO(due_date).toLocaleString(luxon.DateTime.DATE_SHORT)}</td>
+              <td>
+                <button class="btn btn-success" onclick="approveLoan(${id})">Approve</button>
+                <button class="btn btn-danger" onclick="rejectLoan(${id})">Reject</button>
+              </td>
             </tr>
             `
           })
@@ -362,9 +367,10 @@
               <thead>
                 <tr>
                   <th>Ref.</th>
-                  <th>User ID</th>
-                  <th>Approve?</th>
-                  <th>Reject?</th>
+                  <th>Borrower</th>
+                  <th>Amount</th>
+                  <th>Duration (months)</th>
+                  <th>Estimated payout</th>
                 </tr>
               </thead>
               <tbody>${trList}</tbody>
@@ -493,6 +499,14 @@
 
         await swal('Deposit', message, 'success')
         location.reload()
+      }
+
+      async function approveLoan(loanId) {
+        alert('To be implemented!')
+      }
+
+      async function rejectLoan(loanId) {
+        alert('To be implemented!')
       }
     </script>
   </body>
