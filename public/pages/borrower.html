@@ -356,6 +356,15 @@
         
         if (!modalResponse)
           return
+
+        const { status, message } = 
+          await $.post('/api/loan/repay', { accessToken: JSON.parse(localStorage.getItem('accessToken')) })
+
+        if (status !== 200)
+          return swal('Error', message, 'error')
+
+        await swal('Success', message, 'success')
+        location.reload()
       }
 
       async function depositCredits() {
