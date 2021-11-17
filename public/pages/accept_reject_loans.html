@@ -146,13 +146,29 @@
                         <td>${id}</td>
                         <td>${user_id}</td>
                         <td> <button type="button" class="btn btn-success btn-sm" data-toggle="button"
-                                aria-pressed="false" value="Submit">Approve</button> </td>
-                        <td> <button type="button" class="btn btn-success btn-sm" data-toggle="button"
-                                aria-pressed="false" value="Submit">Reject</button> </td>
+                                aria-pressed="false" value="Submit" onclick = "approve(${id})">Approve</button> </td>
+                        <td> <button type="button" class="btn btn-danger btn-sm" data-toggle="button"
+                                aria-pressed="false" value="Submit" onclick = "reject(${id})">Reject</button> </td>
                       </tr>
                     `)
                     }
                 })
+
+                function approve(id) {
+
+                    var settings = {
+                        url: `/api/loan/request/${id}/approve?accessToken=${accessToken}`,
+                        method: 'POST'
+                    }
+                }
+
+                function reject(id) {
+
+                    var settings = {
+                        url: `/api/loan/request/${id}/reject?accessToken=${accessToken}`,
+                        method: 'POST'
+                    }
+                }
             </script>
 </body>
 
