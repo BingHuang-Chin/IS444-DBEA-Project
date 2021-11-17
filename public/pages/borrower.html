@@ -183,8 +183,17 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.1.1/luxon.min.js"
+      integrity="sha512-R3qVfQx4LUWixeZgtptH0NDb+/FB8qVflpPQUKzDQlz1zKE3BiN4wG3aBUwzabgMo/45MXHucjcC2/BWBxMJwQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
     <script>
+      let _userData = null
+      let _loanData = null
+
       $(document).ready(async () => {
         const accessToken = localStorage.getItem('accessToken')
         const [
@@ -194,6 +203,9 @@
           $.get(`/api/auth/user?accessToken=${accessToken}`),
           $.get(`/api/loan/current?accessToken=${accessToken}`)
         ])
+
+        _userData = userData
+        _loanData = loanData
 
         if (userStatus !== 200)
           return swal(
@@ -235,12 +247,15 @@
 
                 <tr>
                   <td class="w-25 ps-0">Payback amount</td>
-                  <td>$${parseFloat(loan_amount) + parseFloat(loan_amount * (interest / 100))}</td>
+                  <td>$${
+                    parseFloat(loan_amount) +
+                    parseFloat(loan_amount * (interest / 100))
+                  }</td>
                 </tr>
 
                 <tr>
                   <td class="w-25 ps-0">Due</td>
-                  <td>${due_date}</td>
+                  <td>${luxon.DateTime.fromISO(due_date).toLocaleString(luxon.DateTime.DATE_SHORT)}</td>
                 </tr>
 
                 <tr>
@@ -250,7 +265,7 @@
               </tbody>
             </table>
 
-            <button class="btn btn-warning ms-auto">
+            <button class="btn btn-warning ms-auto" onclick="repayLoan()">
               Repay
             </button>
           `)
@@ -260,6 +275,21 @@
       function logout() {
         localStorage.removeItem('accessToken')
         window.location = '/pages/login.html'
+      }
+
+      function repayLoan() {
+        const { credits } = _userData
+        const { loan_amount, interest } = _loanData
+        const repayAmount =
+          parseFloat(loan_amount) + parseFloat(loan_amount * (interest / 100))
+
+        if (parseFloat(credits) < repayAmount)
+          return swal('Error', 'Insufficient credits to repay loan.', 'error')
+
+        swal({
+          title: 'Repay',
+          text: ''
+        })
       }
     </script>
   </body>
