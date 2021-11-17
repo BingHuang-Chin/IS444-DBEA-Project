@@ -313,13 +313,42 @@
           title: 'Deposit',
           content: $(`
             <div class="container text-start">
-              <label class="form-label">Account</label>
-              <select id="account-number" class="form-select">${accountOptions}</select>
+              <div class="mb-4">
+                <label class="form-label">Account</label>
+                <select id="account-number" class="form-select">${accountOptions}</select>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Deposit amount</label>
+                <input type="number" class="form-control" id="deposit-amount" placeholder="100" />
+              </div>
             </div>
           `).get(0)
         })
 
-        console.log(modalResponse)
+        if (!modalResponse)
+          return
+
+        const depositAmount = $("#deposit-amount").val()
+        const accountNumber = $("#account-number").val()
+
+        if (!depositAmount || parseFloat(depositAmount) < 100)
+          return swal(
+            'Deposit',
+            'Deposit amount cannot be lower than $100',
+            'error'
+          )
+
+        const { status, message } = await $.post('/api/deposit', {
+          accessToken: JSON.parse(localStorage.getItem('accessToken')),
+          account: accountNumber,
+          amount: parseFloat(depositAmount)
+        })
+
+        if (status !== 200)
+          return swal('Error', message, 'error')
+
+        return swal('Deposit', message, 'success')
       }
     </script>
   </body>
