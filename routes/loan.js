@@ -75,7 +75,45 @@ router.post("/request", async (req, res) => {
  * Lenders approve a loan request
  */
 router.post("/request/:id/approve", async (req, res) => {
-  res.json({ initial: "implementation " })
+  let { accessToken } = req.body
+  const { id } = req.params
+
+  if (!accessToken)
+    return res.json({ status: 401, message: "Unauthorized access." })
+
+  try {
+    const loans = await getLoans(id)
+    if (loans.length === 0)
+      return res.json({ status: 400, message: "Invalid loan." })
+
+    const { peer_listing_id } = loans[0]
+    const peerListing = await getPeerListing(peer_listing_id)
+    const { listed_by, commited_amount } = peerListing[0]
+
+    let [loaner, borrower] = await Promise.all([
+      getUser(listed_by),
+      getUser(accessToken.userID)
+    ])
+    const { user_id: loanerUserId, credits: loanerCredits } = loaner[0]
+    const { user_id: borrowerUserId, credits: borrowerCredits } = borrower[0]
+
+    if (loanerCredits < commited_amount)
+      return res.json({ status: 400, message: "Insufficient credits to loan." })
+
+    await acceptLoan(id, peer_listing_id)
+    await deletePeerListing(peer_listing_id)
+    await transferFastCashCredits({
+      sourceUserId: loanerUserId,
+      destUserId: borrowerUserId,
+      sourceFinalAmount: loanerCredits - commited_amount,
+      destFinalAmount: borrowerCredits + commited_amount
+    })
+
+    return res.json({ status: 200, message: "Successfully accepted loan." })
+  } catch (e) {
+    console.error(e)
+    return res.json({ status: 500, message: "Internal server error" })
+  }
 })
 
 /**
@@ -128,12 +166,73 @@ async function getPeerListing (peerListingId) {
   `, [peerListingId])
 }
 
+async function deletePeerListing (peerListingId) {
+  return mySql.handleQuery(`
+    DELETE FROM peer_listing
+    WHERE id = ?
+  `, [peerListingId])
+}
+
+async function getLoans (loanId) {
+  return mySql.handleQuery(`
+    SELECT *
+    FROM loans
+    WHERE id = ?
+    AND loan_status = 1
+  `, [loanId])
+}
+
 async function createLoan ({ peerListingId, interest, paymentDuration, loanBy, loanAmount, borrowBy, dueDate }) {
   return mySql.handleQuery(`
     INSERT INTO loans (user_id, loan_amount, loan_status, loaned_by, payment_duration, due_date, interest, peer_listing_id)
     VALUES
     (?, ?, ?, ?, ?, ?, ?, ?)
   `, [borrowBy, loanAmount, 1, loanBy, paymentDuration, dueDate, interest, peerListingId])
+}
+
+async function acceptLoan (loanId, peerListId) {
+  // Rejects all other loan requests made to the same peerListId
+  await mySql.handleQuery(`
+    UPDATE loans
+    SET
+    loan_status = 3
+    WHERE peer_listing_id = ?
+  `, [peerListId])
+
+  // Accepts only the loan which the lender approves
+  await mySql.handleQuery(`
+    UPDATE loans
+    SET
+    loan_status = 2
+    WHERE id = ?
+  `, [loanId])
+}
+
+async function rejectLoan (loanId) {
+  return mySql.handleQuery(`
+    UPDATE loans
+    SET
+    loan_status = 3
+    WHERE id = ?
+  `, [loanId])
+}
+
+async function transferFastCashCredits ({ sourceUserId, sourceFinalAmount, destUserId, destFinalAmount }) {
+  return Promise.all([
+    mySql.handleQuery(`
+      UPDATE fc_user
+      SET
+      credits = ?
+      WHERE user_id = ?
+    `, [sourceFinalAmount, sourceUserId]),
+
+    mySql.handleQuery(`
+      UPDATE fc_user
+      SET
+      credits = ?
+      WHERE user_id = ?
+    `, [destFinalAmount, destUserId])
+  ])
 }
 
 module.exports = router
