@@ -151,7 +151,7 @@
             <div class="d-flex align-items-center card-footer">
               Available credits:
               <span class="px-2 fw-bold" id="available-credits">-</span>
-              <button class="btn btn-primary ms-auto">Deposit</button>
+              <button class="btn btn-primary ms-auto" onclick="depositCredits()">Deposit</button>
             </div>
           </div>
 
@@ -193,19 +193,30 @@
     <script>
       let _userData = null
       let _loanData = null
+      let _userAccounts = null
 
       $(document).ready(async () => {
         const accessToken = localStorage.getItem('accessToken')
+        console.log(JSON.parse(accessToken))
+
+        const headerObj = JSON.stringify({
+          ...JSON.parse(accessToken),
+          serviceName: 'getCustomerAccounts'
+        })
+
         const [
           { status: userStatus, data: userData },
-          { status: loanStatus, data: loanData }
+          { status: loanStatus, data: loanData },
+          customerAccounts
         ] = await Promise.all([
           $.get(`/api/auth/user?accessToken=${accessToken}`),
-          $.get(`/api/loan/current?accessToken=${accessToken}`)
+          $.get(`/api/loan/current?accessToken=${accessToken}`),
+          $.post(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`)
         ])
 
         _userData = userData
         _loanData = loanData
+        _customerAccounts = customerAccounts
 
         if (userStatus !== 200)
           return swal(
@@ -289,6 +300,15 @@
         swal({
           title: 'Repay',
           text: ''
+        })
+      }
+
+      function depositCredits() {
+        swal({
+          title: 'Deposit',
+          content: $(`
+
+          `).get(0)
         })
       }
     </script>
