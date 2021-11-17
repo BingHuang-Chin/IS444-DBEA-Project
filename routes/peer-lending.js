@@ -51,6 +51,10 @@ router.post("/", async (req, res) => {
   if (!accessToken)
     return res.json({ status: 401, message: "Unauthorized access." })
 
+  const users = await getUser(accessToken.userID)
+  if (users.length === 0)
+    return res.json({ status: 401, message: "Unauthorized access." })
+
   if (!committedAmount || committedAmount < 250)
     return res.json({ status: 400, message: "Commit amount cannot be lower than $250." })
 
@@ -58,6 +62,13 @@ router.post("/", async (req, res) => {
     return res.json({ status: 400, message: "Interest rate cannot be lower than 1 and higher than 55." })
 
   try {
+    const { credits, is_lender } = users[0]
+    if (!is_lender)
+      return res.json({ status: 400, message: "Lender features are not permitted for a borrower." })
+
+    if (committedAmount > credits)
+      return res.json({ status: 400, message: "Committed amount cannot be more than owned credits." })
+
     await createListing({ userId: accessToken.userID, committedAmount, interestRate })
     return res.json({ status: 200, message: "Successfully listed." })
   } catch (e) {
@@ -65,6 +76,14 @@ router.post("/", async (req, res) => {
     return res.json({ status: 500, message: "Internal server error" })
   }
 })
+
+async function getUser (userId) {
+  return mySql.handleQuery(`
+    SELECT *
+    FROM fc_user
+    WHERE user_id = ?
+  `, [userId])
+}
 
 async function getListings (userId = null) {
   if (userId)
