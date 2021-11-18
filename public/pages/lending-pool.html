@@ -27,6 +27,18 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <style>
+      .b {
+        display:inline-block;
+        position: relative;
+        margin: 5px;
+        /* float:left; */
+        width:32%;
+        /* height:400px; */
+        background-color: lightgrey;
+        text-align: center;
+      }
+    </style>
   </head>
 
   <body class="w-100 h-100 bg-light">
@@ -111,18 +123,71 @@
         </nav>
 
         <div class="container-fluid">
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>Lender</th>
-                <th>Amount</th>
-                <th>Interest rate</th>
-                <th>Date listed</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="listing-table"></tbody>
-          </table>
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="mb-3">Overview</h5>
+              <div class="align-items-center">
+                <div class="b">
+                  <h4>Total Amount Lent</h4>
+                  <p>$120,000</p>
+                </div>
+                <div class="b">
+                  <h4>Total Amount Borrowed</h4>
+                  <p>$100,000</p>
+                </div>
+                <div class="b">
+                  <h4>Average Interest Rate</h4>
+                  <p>12.44%</p>
+                </div>
+              </div>
+                
+              <!-- <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Total Lent</th>
+                    <th>Avg Gains</th>
+                    <th>Total Borrowed</th>
+                    <th>Avg Interest Rate</th>
+                  </tr>
+                </thead>
+              </table> -->
+            </div>
+          </div>
+
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="mb-3">All Markets</h5>
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Market Name</th>
+                    <th>Total Lent</th>
+                    <th>Deposit Limit</th>
+                    <th>Total Borrowed</th>
+                    <th>Avg Interest Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr onlick="showModal()">
+                    <td>Small Medium Enterpise Funding</td>
+                    <td>$50,000</td>
+                    <td>$3000</td>
+                    <td>$48,540</td>
+                    <td>6.4%</td>
+                  </tr>
+                  <tr onlick="showModal()">
+                    <td>Small Medium Enterpise Funding</td>
+                    <td>$50,000</td>
+                    <td>$3000</td>
+                    <td>$48,540</td>
+                    <td>6.4%</td>
+                  </tr>
+                </tbody>
+                
+              </table>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -154,6 +219,26 @@
         function logout() {
             localStorage.removeItem('accessToken')
             window.location = '/pages/login.html'
+        }
+
+        async function showModal(){
+          console.log('tr clicked')
+          const modalResponse = await swal({
+          // title: 'Market Info',
+          // content: $(`
+          //     <div class="container text-start">
+          //       <div class="mb-4">
+          //         <label class="form-label">Account</label>
+          //         <select id="account-number" class="form-select">${accountOptions}</select>
+          //       </div>
+
+          //       <div class="mb-4">
+          //         <label class="form-label">Deposit amount</label>
+          //         <input type="number" class="form-control" id="deposit-amount" placeholder="100" />
+          //       </div>
+          //     </div>
+          //   `).get(0)
+      })
         }
     </script>
   </body>
