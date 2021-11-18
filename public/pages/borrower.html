@@ -404,7 +404,8 @@
         if (status !== 200)
           return swal('Error', message, 'error')
 
-        return swal('Success', message, 'success')
+        await swal('Success', message, 'success')
+        location.reload()
       }
     </script>
   </body>
