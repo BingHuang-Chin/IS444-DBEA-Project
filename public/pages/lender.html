@@ -393,9 +393,6 @@
         `).get(0)
       })
 
-      if (!modalResponse)
-        return
-
       const { status, message } = await $.post(`/api/loan/request/${loanId}/approve`, {
         accessToken: JSON.parse(localStorage.getItem('accessToken'))
       })
@@ -403,7 +400,11 @@
       if (status !== 200)
         return swal('Error', message, 'error')
 
-      await swal('Loan', message, 'success')
+      if (modalResponse)
+        await swal('Insurance', 'You have been successfully insured for this loan.', 'success')
+      else 
+        await swal('Loan', message, 'success')
+
       location.reload()
     }
 
