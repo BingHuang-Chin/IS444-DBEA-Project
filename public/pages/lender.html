@@ -367,6 +367,35 @@
     }
 
     async function approveLoan(loanId) {
+      const modalResponse = await swal({
+        title: 'Purchase Insurance',
+        buttons: ['Cancel', 'Yes, sign me up!'],
+        content: $(`
+          <div class="container-fluid text-start">
+            <p class="text-secondary">
+              Get insurance for this loan you are about to offer to reduce your loses.
+            </p>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <h5>FastCash Protect</h5>
+                  <span class="badge rounded-pill bg-secondary ms-auto">$59</span>
+                </div>
+
+                <p class="mb-0 text-secondary">
+                  Protect your funds when borrowers default. <br/>
+                  Claimable up to 70%
+                </p>
+              </div>
+            </div>
+          </div>
+        `).get(0)
+      })
+
+      if (!modalResponse)
+        return
+
       const { status, message } = await $.post(`/api/loan/request/${loanId}/approve`, {
         accessToken: JSON.parse(localStorage.getItem('accessToken'))
       })
