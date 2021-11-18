@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FastCash | Peer lending</title>
+    <title>FastCash | Lending Pool</title>
 
     <link
       rel="stylesheet"
@@ -66,7 +66,7 @@
                   >Peer lending</a
                 >
                 <a
-                  href="/pages/lending_pool.html"
+                  href="/pages/lending-pool.html"
                   class="d-block text-decoration-none py-2"
                   >Lending pool</a
                 >
@@ -93,7 +93,7 @@
             <div class="collapse navbar-collapse">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <h2>Peer lending</h2>
+                  <h2>Lending Pool</h2>
                 </li>
               </ul>
               <ul class="navbar-nav">
@@ -151,73 +151,10 @@
     ></script>
 
     <script>
-      function logout() {
-        localStorage.removeItem('accessToken')
-        window.location = '/pages/login.html'
-      }
-      
-      $(document).ready(async () => {
-        const accessToken = localStorage.getItem('accessToken')
-        const { status, data } = await $.get(`/api/peer?accessToken=${accessToken}`)
-
-        if (status !== 200)
-          return swal(
-            'Error',
-            'Something went wrong, please try again later.',
-            'error'
-          )
-
-        data.forEach(peerList => {
-          const { id, interest_rate, commited_amount, listed_by, created_at } = peerList
-          $('#listing-table').append(`
-            <tr>
-              <td class="align-middle">${listed_by}</td>
-              <td class="align-middle">${commited_amount}</td>
-              <td class="align-middle">${interest_rate}%</td>
-              <td class="align-middle">${luxon.DateTime.fromISO(created_at).toLocaleString(luxon.DateTime.DATE_SHORT)}</td>
-              <td>
-                <button class="btn btn-secondary" onclick="requestLoan(${id})">Request loan</button>
-              </td>
-            </tr>
-          `)
-        })
-      })
-
-      async function requestLoan(peerListingId) {
-        const modalResponse = await swal({
-          title: 'Loan request',
-          content: $(`
-            <div class="container-fluid text-start">
-              <div class="mb-4">
-                <label class="form-label">Borrow duration (in months)</label>
-                <input type="number" class="form-control" id="duration" placeholder="1" />
-              </div>
-            </div>
-          `).get(0)
-        })
-        
-        if (!modalResponse)
-          return
-
-        const duration = $('#duration').val()
-        if (!duration || parseInt(duration) < 1)
-          return swal(
-            'Error',
-            'Duration cannot be lower than 1 month.',
-            'error'
-          )
-
-        const { status, message } = await $.post('/api/loan/request', {
-          peerListingId,
-          accessToken: JSON.parse(localStorage.getItem('accessToken')),
-          paymentDuration: duration
-        })
-
-        if (status !== 200)
-          return swal('Error!', message, 'error')
-
-        swal('Success!', message, 'success')
-      }
+        function logout() {
+            localStorage.removeItem('accessToken')
+            window.location = '/pages/login.html'
+        }
     </script>
   </body>
 </html>
