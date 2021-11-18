@@ -114,13 +114,13 @@ router.post("/request/:id/approve", async (req, res) => {
     if (loans.length === 0)
       return res.json({ status: 400, message: "Invalid loan." })
 
-    const { peer_listing_id } = loans[0]
+    const { peer_listing_id, user_id } = loans[0]
     const peerListing = await getPeerListing(peer_listing_id)
-    const { listed_by, commited_amount } = peerListing[0]
+    const { commited_amount } = peerListing[0]
 
     let [loaner, borrower] = await Promise.all([
-      getUser(listed_by),
-      getUser(accessToken.userID)
+      getUser(accessToken.userID),
+      getUser(user_id)
     ])
     const { user_id: loanerUserId, credits: loanerCredits } = loaner[0]
     const { user_id: borrowerUserId, credits: borrowerCredits } = borrower[0]
