@@ -98,15 +98,6 @@
 
         <div class="card mb-5">
           <div class="card-body">
-            <h5 class="mb-3">Current loans</h5>
-            <div id="loan-information" class="d-flex align-items-center">
-              -
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-5">
-          <div class="card-body">
             <h5 class="mb-3">Transactions</h5>
             <div id="transaction-history" class="d-flex align-items-center">
               -
@@ -140,7 +131,6 @@
 
   <script>
     let _userData = null
-    let _loanData = null
     let _userAccounts = []
 
     $(document).ready(async () => {
@@ -152,13 +142,11 @@
 
       const [
         { status: userStatus, data: userData },
-        { status: loanStatus, data: loanData },
         { status: transactionStatus, data: transactionData },
         { status: requestedLoanStatus, data: requestedLoanData },
         customerAccounts
       ] = await Promise.all([
         $.get(`/api/auth/user?accessToken=${accessToken}`),
-        $.get(`/api/loan/current?accessToken=${accessToken}`),
         $.get(`/api/transaction/history?accessToken=${accessToken}`),
         $.get(`/api/loan?accessToken=${accessToken}`),
         $.post(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`)
@@ -172,7 +160,6 @@
         )
 
       _userData = userData
-      _loanData = loanData
       _userAccounts = customerAccounts.Content.ServiceResponse.AccountList.account.filter(acc => acc.currentStatus === "Open")
 
       const { total_exp, current_exp, is_lender, level, credits } = userData
@@ -184,48 +171,6 @@
       $('#account-type').text(is_lender ? 'Lender' : 'Borrower')
       $('#current-level').text(`Level ${level}`)
       $('#available-credits').text(`$${credits}`)
-
-      if (!loanData)
-        $('#loan-information').html(`
-            <p class="d-inline-block text-secondary mb-0">
-              No loans taken
-            </p>
-          `)
-      else {
-        const { loan_amount, due_date, interest } = loanData
-
-        $('#loan-information').html(`
-            <table class="table table-borderless mb-0 me-4">
-              <tbody>
-                <tr>
-                  <td class="w-25 ps-0">Loaned amount</td>
-                  <td>$${loan_amount}</td>
-                </tr>
-
-                <tr>
-                  <td class="w-25 ps-0">Payback amount</td>
-                  <td>$${parseFloat(loan_amount) +
-          parseFloat(loan_amount * (interest / 100))
-          }</td>
-                </tr>
-
-                <tr>
-                  <td class="w-25 ps-0">Due</td>
-                  <td>${luxon.DateTime.fromISO(due_date).toLocaleString(luxon.DateTime.DATE_SHORT)}</td>
-                </tr>
-
-                <tr>
-                  <td class="w-25 ps-0">Interest</td>
-                  <td>${interest}%</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <button class="btn btn-warning ms-auto" >
-              Yet to be repaid
-            </button>
-          `)
-      }
 
       if (transactionData.length === 0)
         $('#transaction-history').html(`
@@ -422,11 +367,27 @@
     }
 
     async function approveLoan(loanId) {
-      alert('To be implemented!')
+      const { status, message } = await $.post(`/api/loan/request/${loanId}/approve`, {
+        accessToken: JSON.parse(localStorage.getItem('accessToken'))
+      })
+
+      if (status !== 200)
+        return swal('Error', message, 'error')
+
+      await swal('Loan', message, 'success')
+      location.reload()
     }
 
     async function rejectLoan(loanId) {
-      alert('To be implemented!')
+      const { status, message } = await $.post(`/api/loan/request/${loanId}/reject`, {
+        accessToken: JSON.parse(localStorage.getItem('accessToken'))
+      })
+
+      if (status !== 200)
+        return swal('Error', message, 'error')
+
+      await swal('Loan', message, 'success')
+      location.reload()
     }
   </script>
 </body>
