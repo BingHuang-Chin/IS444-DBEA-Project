@@ -129,7 +129,6 @@ router.post("/request/:id/approve", async (req, res) => {
       return res.json({ status: 400, message: "Insufficient credits to loan." })
 
     await acceptLoan(id, peer_listing_id)
-    await deletePeerListing(peer_listing_id)
     await transferFastCashCredits({
       sourceUserId: loanerUserId,
       destUserId: borrowerUserId,
