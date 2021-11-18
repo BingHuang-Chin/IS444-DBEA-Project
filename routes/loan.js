@@ -208,6 +208,8 @@ router.post("/repay", async (req, res) => {
     if (current_exp + 1 === total_exp) {
       level += 1
       current_exp = 0
+    } else {
+      current_exp += 1
     }
 
     await updateUserLevel(accessToken.userID, level, current_exp)
@@ -218,7 +220,7 @@ router.post("/repay", async (req, res) => {
   }
 })
 
-async function getUser (userId) {
+async function getUser(userId) {
   return mySql.handleQuery(`
     SELECT *
     FROM fc_user
@@ -226,7 +228,7 @@ async function getUser (userId) {
   `, [userId])
 }
 
-async function getLoansByUser (userId) {
+async function getLoansByUser(userId) {
   return mySql.handleQuery(`
     SELECT loans.id, user_id, loan_amount, title as loan_status, loaned_by, payment_duration, due_date, interest
     FROM loans
@@ -237,18 +239,20 @@ async function getLoansByUser (userId) {
   `, [userId])
 }
 
-async function getLoansByLister (userId) {
+async function getLoansByLister(userId) {
   return mySql.handleQuery(`
-    SELECT loans.id, user_id, loan_amount, title as loan_status, loaned_by, payment_duration, due_date, interest
-    FROM loans
+    SELECT l.id, l.user_id, loan_amount, title as loan_status, loaned_by, payment_duration, due_date, interest, fu.level
+    FROM loans l
+    INNER JOIN fc_user fu
+    ON fu.user_id = l.user_id 
     INNER JOIN loan_status
-    ON loan_status = loan_status.id
+    ON loan_status = loan_status.id  
     WHERE loaned_by = ?
-    ORDER BY loans.id asc;
+    ORDER BY l.id asc;
   `, [userId])
 }
 
-async function getOfferedLoans (userId) {
+async function getOfferedLoans(userId) {
   return mySql.handleQuery(`
     SELECT *
     FROM loans
@@ -257,7 +261,7 @@ async function getOfferedLoans (userId) {
   `, [userId])
 }
 
-async function getPeerListing (peerListingId) {
+async function getPeerListing(peerListingId) {
   return mySql.handleQuery(`
     SELECT *
     FROM peer_listing
@@ -265,14 +269,14 @@ async function getPeerListing (peerListingId) {
   `, [peerListingId])
 }
 
-async function deletePeerListing (peerListingId) {
+async function deletePeerListing(peerListingId) {
   return mySql.handleQuery(`
     DELETE FROM peer_listing
     WHERE id = ?
   `, [peerListingId])
 }
 
-async function getLoans (loanId) {
+async function getLoans(loanId) {
   return mySql.handleQuery(`
     SELECT *
     FROM loans
@@ -281,7 +285,7 @@ async function getLoans (loanId) {
   `, [loanId])
 }
 
-async function createLoan ({ peerListingId, interest, paymentDuration, loanBy, loanAmount, borrowBy, dueDate }) {
+async function createLoan({ peerListingId, interest, paymentDuration, loanBy, loanAmount, borrowBy, dueDate }) {
   return mySql.handleQuery(`
     INSERT INTO loans (user_id, loan_amount, loan_status, loaned_by, payment_duration, due_date, interest, peer_listing_id)
     VALUES
@@ -289,7 +293,7 @@ async function createLoan ({ peerListingId, interest, paymentDuration, loanBy, l
   `, [borrowBy, loanAmount, 1, loanBy, paymentDuration, dueDate, interest, peerListingId])
 }
 
-async function acceptLoan (loanId, peerListId) {
+async function acceptLoan(loanId, peerListId) {
   // Rejects all other loan requests made to the same peerListId
   await mySql.handleQuery(`
     UPDATE loans
@@ -307,7 +311,7 @@ async function acceptLoan (loanId, peerListId) {
   `, [loanId])
 }
 
-async function rejectLoan (loanId) {
+async function rejectLoan(loanId) {
   return mySql.handleQuery(`
     UPDATE loans
     SET
@@ -316,7 +320,7 @@ async function rejectLoan (loanId) {
   `, [loanId])
 }
 
-async function repayLoan (loanId) {
+async function repayLoan(loanId) {
   return mySql.handleQuery(`
     UPDATE loans
     SET
@@ -325,7 +329,7 @@ async function repayLoan (loanId) {
   `, [loanId])
 }
 
-async function transferFastCashCredits ({ sourceUserId, sourceFinalAmount, destUserId, destFinalAmount }) {
+async function transferFastCashCredits({ sourceUserId, sourceFinalAmount, destUserId, destFinalAmount }) {
   return Promise.all([
     mySql.handleQuery(`
       UPDATE fc_user
@@ -343,7 +347,7 @@ async function transferFastCashCredits ({ sourceUserId, sourceFinalAmount, destU
   ])
 }
 
-async function updateUserLevel (userId, level, currentExp) {
+async function updateUserLevel(userId, level, currentExp) {
   return mySql.handleQuery(`
     UPDATE fc_user
     SET

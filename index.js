@@ -20,6 +20,7 @@ app.use(express.static("public"))
 
 app.use("/api/auth", authRouter)
 app.use("/api/deposit", depositRouter)
+app.use("/api/withdraw", withdrawRouter)
 app.use("/api/loan", loanRouter)
 app.use("/api/peer", peerRouter)
 app.use("/api/transaction", transactionRouter)

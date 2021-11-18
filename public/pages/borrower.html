@@ -1,46 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" class="w-100 h-100">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FastCash | Borrower's</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
-      integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css"
-      integrity="sha512-gOQQLjHRpD3/SEOtalVq50iDn4opLVup2TF8c4QPI3/NmUPNZOk2FG0ihi8oCU/qYEsw4P6nuEZT2lAG0UNYaw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCash | Borrower's</title>
 
-  <body class="w-100 h-100 bg-light">
-    <div class="row h-100 w-100">
-      <div class="col-2 bg-white">
-        <a
-          href="/pages/borrower.html"
-          class="fs-2 fw-bolder px-3 text-secondary text-decoration-none mb-4"
-          >FastCash</a
-        >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
+    integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css"
+    integrity="sha512-gOQQLjHRpD3/SEOtalVq50iDn4opLVup2TF8c4QPI3/NmUPNZOk2FG0ihi8oCU/qYEsw4P6nuEZT2lAG0UNYaw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 
-        <div class="p-3 w-100">
-          <div
-            class="
+<body class="w-100 h-100 bg-light">
+  <div class="row h-100 w-100">
+    <div class="col-2 bg-white">
+      <a href="/pages/borrower.html" class="fs-2 fw-bolder px-3 text-secondary text-decoration-none mb-4">FastCash</a>
+
+      <div class="p-3 w-100">
+        <div class="
               d-flex
               w-100
               align-items-center
@@ -48,211 +32,170 @@
               fw-light
               text-secondary
               py-2
-            "
-          >
-            Lending
-            <i class="fas fa-chevron-up ms-auto"></i>
-          </div>
-
-          <div class="card mx-2 rounded">
-            <div class="card-body">
-              <p class="card-text">
-                <span class="d-block fs-6 fw-bold text-secondary py-2">
-                  Dashboard
-                </span>
-                <a
-                  href="/pages/peer-lending.html"
-                  class="d-block text-decoration-none py-2"
-                  >Peer lending</a
-                >
-                <a
-                  href="/pages/lending-pool.html"
-                  class="d-block text-decoration-none py-2"
-                  >Lending pool</a
-                >
-              </p>
-            </div>
-          </div>
+            ">
+          Lending
+          <i class="fas fa-chevron-up ms-auto"></i>
         </div>
-      </div>
 
-      <div class="col">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-          <div class="container-fluid">
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <h2>Dashboard</h2>
-                </li>
-              </ul>
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <button
-                    class="text-danger bg-transparent border-0"
-                    onclick="logout()"
-                  >
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-
-        <div class="container-fluid">
-          <div class="card mb-5">
-            <div class="card-body">
-              <div class="w-100 d-flex align-items-center">
-                <h2 class="d-inline-block card-title">Profile</h2>
-                <span
-                  class="badge bg-info ms-auto rounded-pill fs-6"
-                  id="account-type"
-                  >-</span
-                >
-              </div>
-
-              <p class="fw-light">
-                <span
-                  class="badge bg-secondary ms-auto rounded-pill fs-6"
-                  id="current-level"
-                >
-                  -
-                </span>
-
-                <span
-                  class="badge bg-secondary ms-auto rounded-pill fs-6"
-                  id="level-progress-text"
-                >
-                  -
-                </span>
-              </p>
-              <div class="progress">
-                <div
-                  id="level-progress"
-                  class="progress-bar"
-                  role="progressbar"
-                  style="width: 0%"
-                ></div>
-              </div>
-            </div>
-
-            <div class="d-flex align-items-center card-footer">
-              Available credits:
-              <span class="px-2 fw-bold" id="available-credits">-</span>
-              <button class="btn btn-primary ms-auto" onclick="depositCredits()">Deposit</button>
-            </div>
-          </div>
-
-          <div class="card mb-5">
-            <div class="card-body">
-              <h5 class="mb-3">Current loan</h5>
-              <div id="loan-information" class="d-flex align-items-center">
-                -
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="mb-3">Transactions</h5>
-              <div id="transaction-history" class="d-flex align-items-center">
-                -
-              </div>
-            </div>
+        <div class="card mx-2 rounded">
+          <div class="card-body">
+            <p class="card-text">
+              <span class="d-block fs-6 fw-bold text-secondary py-2">
+                Dashboard
+              </span>
+              <a href="/pages/peer-lending.html" class="d-block text-decoration-none py-2">Peer lending</a>
+              <a href="/pages/lending-pool.html" class="d-block text-decoration-none py-2">Lending pool</a>
+            </p>
           </div>
         </div>
       </div>
     </div>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"
-      integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-      integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.1.1/luxon.min.js"
-      integrity="sha512-R3qVfQx4LUWixeZgtptH0NDb+/FB8qVflpPQUKzDQlz1zKE3BiN4wG3aBUwzabgMo/45MXHucjcC2/BWBxMJwQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <div class="col">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <h2>Dashboard</h2>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <button class="text-danger bg-transparent border-0" onclick="logout()">
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-    <script>
-      let _userData = null
-      let _loanData = null
-      let _userAccounts = []
+      <div class="container-fluid">
+        <div class="card mb-5">
+          <div class="card-body">
+            <div class="w-100 d-flex align-items-center">
+              <h2 class="d-inline-block card-title">Profile</h2>
+              <span class="badge bg-info ms-auto rounded-pill fs-6" id="account-type">-</span>
+            </div>
 
-      $(document).ready(async () => {
-        const accessToken = localStorage.getItem('accessToken')
-        const headerObj = JSON.stringify({
-          ...JSON.parse(accessToken),
-          serviceName: 'getCustomerAccounts'
-        })
+            <p class="fw-light">
+              <span class="badge bg-secondary ms-auto rounded-pill fs-6" id="current-level">
+                -
+              </span>
 
-        const [
-          { status: userStatus, data: userData },
-          { status: loanStatus, data: loanData },
-          { status: transactionStatus, data: transactionData },
-          customerAccounts
-        ] = await Promise.all([
-          $.get(`/api/auth/user?accessToken=${accessToken}`),
-          $.get(`/api/loan/current?accessToken=${accessToken}`),
-          $.get(`/api/transaction/history?accessToken=${accessToken}`),
-          $.post(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`)
-        ])
+              <span class="badge bg-secondary ms-auto rounded-pill fs-6" id="level-progress-text">
+                -
+              </span>
+            </p>
+            <div class="progress">
+              <div id="level-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+            </div>
+          </div>
 
-        if (userStatus !== 200 || transactionStatus !== 200 || customerAccounts.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID !== "010000")
-          return swal(
-            'Error!',
-            'Something went wrong, please try again later.',
-            'error'
-          )
+            <div class="d-flex align-items-center card-footer">
+              Available credits:
+              <span class="px-2 fw-bold" id="available-credits">-</span>
 
-        _userData = userData
-        _loanData = loanData
-        _userAccounts = customerAccounts.Content.ServiceResponse.AccountList.account.filter(acc => acc.currentStatus === "Open")
+              <div class="ms-auto">
+                <button class="btn btn-secondary" onclick="withdrawCredits()">Withdraw</button>
+                <button class="btn btn-primary" onclick="depositCredits()">Deposit</button>
+            </div>
+          </div>
+        </div>
 
-        const { total_exp, current_exp, is_lender, level, credits } = userData
-        const levelProgress = (current_exp / total_exp) * 100
-        $('#level-progress-text').text(
-          `Progress: ${current_exp} / ${total_exp}`
+        <div class="card mb-5">
+          <div class="card-body">
+            <h5 class="mb-3">Current loan</h5>
+            <div id="loan-information" class="d-flex align-items-center">
+              -
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="mb-3">Transactions</h5>
+            <div id="transaction-history" class="d-flex align-items-center">
+              -
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"
+    integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.1.1/luxon.min.js"
+    integrity="sha512-R3qVfQx4LUWixeZgtptH0NDb+/FB8qVflpPQUKzDQlz1zKE3BiN4wG3aBUwzabgMo/45MXHucjcC2/BWBxMJwQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+    let _userData = null
+    let _loanData = null
+    let _userAccounts = []
+
+    $(document).ready(async () => {
+      const accessToken = localStorage.getItem('accessToken')
+      const headerObj = JSON.stringify({
+        ...JSON.parse(accessToken),
+        serviceName: 'getCustomerAccounts'
+      })
+
+      const [
+        { status: userStatus, data: userData },
+        { status: loanStatus, data: loanData },
+        { status: transactionStatus, data: transactionData },
+        customerAccounts
+      ] = await Promise.all([
+        $.get(`/api/auth/user?accessToken=${accessToken}`),
+        $.get(`/api/loan/current?accessToken=${accessToken}`),
+        $.get(`/api/transaction/history?accessToken=${accessToken}`),
+        $.post(`http://tbankonline.com/SMUtBank_API/Gateway?Header=${headerObj}`)
+      ])
+
+      if (userStatus !== 200 || transactionStatus !== 200 || customerAccounts.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID !== "010000")
+        return swal(
+          'Error!',
+          'Something went wrong, please try again later.',
+          'error'
         )
-        $('#level-progress').css('width', `${levelProgress}%`)
-        $('#account-type').text(is_lender ? 'Lender' : 'Borrower')
-        $('#current-level').text(`Level ${level}`)
-        $('#available-credits').text(`$${credits}`)
 
-        if (!loanData)
-          $('#loan-information').html(`
+      _userData = userData
+      _loanData = loanData
+      _userAccounts = customerAccounts.Content.ServiceResponse.AccountList.account.filter(acc => acc.currentStatus === "Open")
+
+      const { total_exp, current_exp, is_lender, level, credits } = userData
+      const levelProgress = (current_exp / total_exp) * 100
+      $('#level-progress-text').text(
+        `Progress: ${current_exp} / ${total_exp}`
+      )
+      $('#level-progress').css('width', `${levelProgress}%`)
+      $('#account-type').text(is_lender ? 'Lender' : 'Borrower')
+      $('#current-level').text(`Level ${level}`)
+      $('#available-credits').text(`$${credits}`)
+
+      if (!loanData)
+        $('#loan-information').html(`
             <p class="d-inline-block text-secondary mb-0">
               No loans taken
             </p>
           `)
-        else {
-          const { loan_amount, due_date, interest } = loanData
+      else {
+        const { loan_amount, due_date, interest } = loanData
 
-          $('#loan-information').html(`
+        $('#loan-information').html(`
             <table class="table table-borderless mb-0 me-4">
               <tbody>
                 <tr>
@@ -262,10 +205,9 @@
 
                 <tr>
                   <td class="w-25 ps-0">Payback amount</td>
-                  <td>$${
-                    parseFloat(loan_amount) +
-                    parseFloat(loan_amount * (interest / 100))
-                  }</td>
+                  <td>$${parseFloat(loan_amount) +
+          parseFloat(loan_amount * (interest / 100))
+          }</td>
                 </tr>
 
                 <tr>
@@ -284,10 +226,10 @@
               Repay
             </button>
           `)
-        }
+      }
 
-        if (transactionData.length === 0)
-          $('#transaction-history').html(`
+      if (transactionData.length === 0)
+        $('#transaction-history').html(`
             <p class="d-inline-block text-secondary mb-0">
               You have no transactions.
             </p>
@@ -296,12 +238,12 @@
               View loans
             </button>
           `)
-        else {
-          let trList = ''
-          transactionData.forEach(tx => {
-            const { id, transaction_status, amount, created_at, dest_account, source_account } = tx
+      else {
+        let trList = ''
+        transactionData.forEach(tx => {
+          const { id, transaction_status, amount, created_at, dest_account, source_account } = tx
 
-            trList += `
+          trList += `
               <tr>
                 <td>${id}</td>
                 <td>${source_account}</td>
@@ -311,9 +253,9 @@
                 <td>${luxon.DateTime.fromISO(created_at).toLocaleString(luxon.DateTime.DATE_SHORT)}</td>
               </tr>
             `
-          })
+        })
 
-          $(`#transaction-history`).html(`
+        $(`#transaction-history`).html(`
             <table class="table table-borderless mb-0">
               <thead>
                 <tr>
@@ -328,56 +270,56 @@
               <tbody>${trList}</tbody>
             </table>
           `)
+      }
+    })
+
+    function logout() {
+      localStorage.removeItem('accessToken')
+      window.location = '/pages/login.html'
+    }
+
+    async function repayLoan() {
+      const { credits } = _userData
+      const { loan_amount, interest } = _loanData
+      const repayAmount =
+        parseFloat(loan_amount) + parseFloat(loan_amount * (interest / 100))
+
+      if (parseFloat(credits) < repayAmount)
+        return swal('Error', 'Insufficient credits to repay loan.', 'error')
+
+      const modalResponse = await swal({
+        title: 'Confirmation',
+        text: 'Are you sure you want to repay?',
+        buttons: {
+          cancel: true,
+          confirm: 'Yes'
         }
       })
 
-      function logout() {
-        localStorage.removeItem('accessToken')
-        window.location = '/pages/login.html'
-      }
+      if (!modalResponse)
+        return
 
-      async function repayLoan() {
-        const { credits } = _userData
-        const { loan_amount, interest } = _loanData
-        const repayAmount =
-          parseFloat(loan_amount) + parseFloat(loan_amount * (interest / 100))
+      const { status, message } =
+        await $.post('/api/loan/repay', { accessToken: JSON.parse(localStorage.getItem('accessToken')) })
 
-        if (parseFloat(credits) < repayAmount)
-          return swal('Error', 'Insufficient credits to repay loan.', 'error')
+      if (status !== 200)
+        return swal('Error', message, 'error')
 
-        const modalResponse = await swal({
-          title: 'Confirmation',
-          text: 'Are you sure you want to repay?',
-          buttons: {
-            cancel: true,
-            confirm: 'Yes'
-          }
-        })
-        
-        if (!modalResponse)
-          return
+      await swal('Success', message, 'success')
+      location.reload()
+    }
 
-        const { status, message } = 
-          await $.post('/api/loan/repay', { accessToken: JSON.parse(localStorage.getItem('accessToken')) })
+    async function depositCredits() {
+      let accountOptions = ''
+      _userAccounts.forEach((acc, index) => {
+        const { accountID } = acc
+        const isSelected = index === 0 ? 'selected' : ''
+        accountOptions += `<option value="${accountID}" ${isSelected}>${accountID}</option>`
+      })
 
-        if (status !== 200)
-          return swal('Error', message, 'error')
-
-        await swal('Success', message, 'success')
-        location.reload()
-      }
-
-      async function depositCredits() {
-        let accountOptions = ''
-        _userAccounts.forEach((acc, index) => {
-          const { accountID } = acc
-          const isSelected = index === 0 ? 'selected' : ''
-          accountOptions += `<option value="${accountID}" ${isSelected}>${accountID}</option>`
-        })
-
-        const modalResponse = await swal({
-          title: 'Deposit',
-          content: $(`
+      const modalResponse = await swal({
+        title: 'Deposit',
+        content: $(`
             <div class="container text-start">
               <div class="mb-4">
                 <label class="form-label">Account</label>
@@ -390,32 +332,79 @@
               </div>
             </div>
           `).get(0)
+      })
+
+      if (!modalResponse)
+        return
+
+      const depositAmount = $("#deposit-amount").val()
+      const accountNumber = $("#account-number").val()
+
+      if (!depositAmount || parseFloat(depositAmount) < 100)
+        return swal(
+          'Deposit',
+          'Deposit amount cannot be lower than $100',
+          'error'
+        )
+
+      const { status, message } = await $.post('/api/deposit', {
+        accessToken: JSON.parse(localStorage.getItem('accessToken')),
+        account: accountNumber,
+        amount: parseFloat(depositAmount)
+      })
+
+      if (status !== 200)
+        return swal('Error', message, 'error')
+
+        await swal('Deposit', message, 'success')
+        location.reload()
+      }
+
+      async function withdrawCredits() {
+        let accountOptions = ''
+        _userAccounts.forEach((acc, index) => {
+          const { accountID } = acc
+          const isSelected = index === 0 ? 'selected' : ''
+          accountOptions += `<option value="${accountID}" ${isSelected}>${accountID}</option>`
         })
 
-        if (!modalResponse)
-          return
+        const modalResponse = await swal({
+          title: 'Withdraw',
+          content: $(`
+            <div class="container text-start">
+              <div class="mb-4">
+                <label class="form-label">Receiving account</label>
+                <select id="withdraw-account-number" class="form-select">${accountOptions}</select>
+              </div>
 
-        const depositAmount = $("#deposit-amount").val()
-        const accountNumber = $("#account-number").val()
+              <div class="mb-4">
+                <label class="form-label">Withdrawal amount</label>
+                <input type="number" class="form-control" id="withdraw-amount" placeholder="100" />
+              </div>
+            </div>
+          `).get(0)
+        })
 
-        if (!depositAmount || parseFloat(depositAmount) < 100)
+        const withdrawalAmount = $("#withdraw-amount").val()
+        const accountNumber = $("#withdraw-account-number").val()
+
+        if (!withdrawalAmount || parseFloat(withdrawalAmount) < 100)
           return swal(
-            'Deposit',
-            'Deposit amount cannot be lower than $100',
+            'Withdrawal',
+            'Withdrawal amount cannot be lower than $100',
             'error'
           )
 
-        const { status, message } = await $.post('/api/deposit', {
-          accessToken: JSON.parse(localStorage.getItem('accessToken')),
-          account: accountNumber,
-          amount: parseFloat(depositAmount)
+        const { status, message } = await $.post('/api/withdraw', { 
+          accessToken: JSON.parse(localStorage.getItem('accessToken')) ,
+          receivingAccount: accountNumber,
+          withdrawAmount: withdrawalAmount
         })
 
         if (status !== 200)
           return swal('Error', message, 'error')
 
-        await swal('Deposit', message, 'success')
-        location.reload()
+        return swal('Success', message, 'success')
       }
     </script>
   </body>

@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
   })
 })
 
-async function getUser (userId) {
+async function getUser(userId) {
   return mySql.handleQuery(`
     SELECT *
     FROM fc_user
@@ -56,7 +56,7 @@ async function getUser (userId) {
   `, [userId])
 }
 
-async function createUser (userId, isLender) {
+async function createUser(userId, isLender) {
   await mySql.handleQuery(`
     INSERT INTO fc_user (user_id, is_lender)
     VALUES
