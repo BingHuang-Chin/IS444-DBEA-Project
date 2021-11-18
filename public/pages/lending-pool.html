@@ -168,14 +168,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr onlick="showModal()">
+                  <tr onclick="showModal()">
                     <td>Small Medium Enterpise Funding</td>
                     <td>$50,000</td>
                     <td>$3000</td>
                     <td>$48,540</td>
                     <td>6.4%</td>
                   </tr>
-                  <tr onlick="showModal()">
+                  <tr onclick="showModal()">
                     <td>Small Medium Enterpise Funding</td>
                     <td>$50,000</td>
                     <td>$3000</td>
@@ -224,22 +224,41 @@
         async function showModal(){
           console.log('tr clicked')
           const modalResponse = await swal({
-          // title: 'Market Info',
-          // content: $(`
-          //     <div class="container text-start">
-          //       <div class="mb-4">
-          //         <label class="form-label">Account</label>
-          //         <select id="account-number" class="form-select">${accountOptions}</select>
-          //       </div>
+          title: 'Market Info',
+          content: $(`
+              <div class="container text-start">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="lend-tab" data-toggle="tab" href="#lend" role="tab" aria-controls="lend" aria-selected="true">Lend</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="borrow-tab" data-toggle="tab" href="#borrow" role="tab" aria-controls="borrow" aria-selected="false">Borrow</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="withdraw-tab" data-toggle="tab" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="false">Withdraw</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="repay-tab" data-toggle="tab" href="#repay" role="tab" aria-controls="repay" aria-selected="false">Repay</a>
+                  </li>
+                </ul>
 
-          //       <div class="mb-4">
-          //         <label class="form-label">Deposit amount</label>
-          //         <input type="number" class="form-control" id="deposit-amount" placeholder="100" />
-          //       </div>
-          //     </div>
-          //   `).get(0)
+                <div class="tab-content">
+                  <div class="tab-pane active" id="lend" role="tabpanel" aria-labelledby="lend-tab">...</div>
+                  <div class="tab-pane" id="borrow" role="tabpanel" aria-labelledby="borrow-tab">...</div>
+                  <div class="tab-pane" id="withdraw" role="tabpanel" aria-labelledby="withdraw-tab">...</div>
+                  <div class="tab-pane" id="repay" role="tabpanel" aria-labelledby="repay-tab">...</div>
+                </div>
+            `).get(0)
       })
         }
+       
+      $(function () {
+        $('#myTab li:last-child a').tab('show')
+      })
+                
+      // $(document).ready(function(){
+      //     $("#myTab li:eq(1) a").tab("show"); // show second tab (0-indexed, like an array)
+      // });
     </script>
   </body>
 </html>
